@@ -1,4 +1,4 @@
-populist.playlist.queue = queue_init;
+
 
 populist.ui.resize = function() {
     

@@ -10,7 +10,7 @@
        Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>PopulistFM{% block title %}{% end %}</title>
+  <title>PopulistFM</title>
   <meta name="description" content="PopulistFM - music for everyone">
   <meta name="author" content="PopulistFM">
 
@@ -34,7 +34,122 @@
     
     <div id="container">
       
-      {% block content %}{% end %}
+	  
+
+      <div id="sidebar">
+	<div id="station-logo">
+	</div>
+      </div>
+      
+      <div id="main" class="l-margin" role="main">
+	<div id="top" class="bg">
+	  <a href="#" id="sitelogo">
+	    <img src="{{ static_url('img/logo-small.png') }}" />
+	  </a>
+	  <a href="#" id="fullscreen"></a>
+	  <div class="l-margin">
+	      
+	    <div id="populist-player" class="jp-jplayer"></div>
+
+	    <div id="player" class="jp-audio c65p">
+	      <div class="jp-type-single">
+		<div id="jp_interface_1" class="jp-interface">
+		  <div id="controls" class="jp-controls">
+		    <a href="#" class="jp-play button-play" tabindex="1"></a>
+		  </div>
+		  <div id="now-playing" class="fg">
+		    This station is currently not playing any music.
+		  </div>
+		  <div class="jp-progress">
+		    <div class="jp-seek-bar">
+		      <div class="jp-play-bar"></div>
+		      <div id="timecode" class="fg">
+			<span class="jp-current-time fg">0:00</span> / <span class="jp-duration fg">0:00</span>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="jp-volume-bar" style="display:none">
+		    <div class="jp-volume-bar-value"></div>
+		  </div>
+		</div>
+	      </div>
+	    </div>
+	    
+	    
+
+	    <div class="left c45p">
+	      <div id="listeners" class="left">
+	      </div>
+	      <div id="username" class="right">
+		<a class="fg" href="#">
+		  Your username
+		</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div id="content">
+	  <div id="left" class="c65p">
+	    <div id="request-queue">
+	      <a class="page-marker" name="queue">
+		<img src="{{ static_url('img/icon-request-queue-circle.png') }}" />
+	      </a>
+	      <h1 class="title">Request Queue <small id="request-queue-count"></small></h1>
+	      <ul id="playlist">
+			<!--{% include "../playlist/queue.html" %}-->
+	      </ul>
+	    </div>
+
+	    <div id="add-music">
+	      <a class="page-marker" name="request">
+		<img src="{{ static_url('img/icon-request-add-circle.png') }}" />
+	      </a>
+	      <h1 class="title">Make a Request</h1>
+	      
+	      <form id="music-search">
+			
+		<div class="right">
+		  <input type="submit" value="" />
+		</div>
+		<div id="add-music-input">
+		  <div>
+		    <input type="text" placeholder="Enter an artist name" name="artist" />
+		  </div>
+		</div>
+		<div class="clearfix"></div>
+	      </form>
+	      
+	      <ul id="music-search-results">
+	      </ul>
+	      <div class="clearfix"></div>
+
+	    </div>
+	    <div class="clearfix"></div>
+	  </div>
+	  
+	  <div id="right" class="c45p">
+	    
+	    <div id="chat">
+	      <form action="#" method="post">
+			
+		<div>
+		  <textarea id="chat-message" name="message" placeholder="Got something to say?"></textarea>
+		  <input type="submit" id="chat-message-submit" style="display:none"/>
+		</div>
+	      </form>
+	      <div id="messages">
+			<!--{% include "messages.html" %}-->
+	      </div>
+
+	    </div>
+
+	  </div>
+	  <div class="clearfix"></div>
+	</div>
+      </div>
+
+
+
   
     </div> <!--! end of #container -->
 
