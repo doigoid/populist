@@ -73,10 +73,8 @@
 			<div class="left c45p">
 			  <div id="listeners" class="left">
 			  </div>
-			  <div id="username" class="right">
-				<a class="fg" href="#">
-				  Your username
-				</a>
+			  <div id="username" class="fg right">
+				Your username
 			  </div>
 			</div>
 		  </div>
@@ -92,7 +90,6 @@
 				<!--{% include "../playlist/queue.html" %}-->
 			  </ul>
 			</div>
-
 			<div id="add-music">
 			  <a class="page-marker" name="request">
 				<img src="img/icon-request-add-circle.png">
@@ -106,7 +103,7 @@
 				</div>
 				<div id="add-music-input">
 				  <div>
-					<input type="text" placeholder="Enter an artist name" name="artist">
+					<input id="query" type="text" placeholder="Enter an artist name" name="artist">
 				  </div>
 				</div>
 				<div class="clearfix"></div>
@@ -131,7 +128,7 @@
 				</div>
 			  </form>
 			  <div id="messages">
-				<!--{% include "messages.html" %}-->
+				<ul></ul>
 			  </div>
 
 			</div>
@@ -149,11 +146,14 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
   <script>window.jQuery || document.write("<script src='{{ static_url('js/libs/jquery-1.5.1.min.js') }}'>\x3C/script>")</script>
 
+  <script type='text/javascript' src='http://static.firebase.com/v0/firebase.js'></script>
+  
   <!-- scripts concatenated and minified via ant build script-->
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
-  <script src="js/station.js"></script>
-  <script src="../js/nest.js"></script>
+  <!--<script src="js/station.js"></script>-->
+  <script src="../js/underscore.js"></script>
+  <script src="../js/jquery.echonest.js"></script>
   <script src="../js/populist.js"></script>
   
   <!-- end scripts-->

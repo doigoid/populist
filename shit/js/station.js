@@ -153,6 +153,7 @@ $(document).ready(function() {
 	      $("#listeners").html(r);
 	  });
     
+					  /*
     $("#music-search").submit(function(e) {
 	e.preventDefault();
 	$("#music-search-results").html("<li><h2 align=center>Searching...</h2></li>");
@@ -165,7 +166,7 @@ $(document).ready(function() {
 	    }
 	);
     });
-	
+	*/
     $("#fullscreen").click(function() {
 	if($("#content").is(":visible")) {
 	    $('body').toggleClass('fullscreen');
