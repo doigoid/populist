@@ -1,0 +1,21 @@
+@import 'includes/reset';
+@import 'includes/grid';
+@import 'includes/helpers';
+
+/*   STYLE
+-----------------------------------------------------------------------------*/
+
+.container { width: 90%; margin: 0 auto; }
+
+header .username { text-align: right; }
+
+
+@media screen {
+	@media (min-width: 240px) { body { background-color: hsl(0, 100%, 50%); } }
+	@media (min-width: 320px) { body { background-color: hsl(50, 100%, 50%); } }
+	@media (min-width: 480px) { body { background-color: hsl(100, 100%, 50%); } }
+	@media (min-width: 640px) { body { background-color: hsl(150, 100%, 50%); } }
+	@media (min-width: 768px) { body { background-color: hsl(200, 100%, 50%); } }
+	@media (min-width: 1024px) { body { background-color: hsl(250, 100%, 50%); } }
+	@media (min-width: 1200px) { body { background-color: hsl(300, 100%, 50%); } }
+}
