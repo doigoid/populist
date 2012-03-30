@@ -1,0 +1,52 @@
+<script type="text/javascript">
+var args = {};
+args._xsrf = getCookie("_xsrf");
+// Setup html5 version
+$(function() {
+	$("#uploader").pluploadQueue({
+		// General settings
+		runtimes : 'html5,html4',
+		url : '/{{ station_slug }}/add',
+		max_file_size : '10mb',
+		chunk_size : '1mb',
+		unique_names : true,
+        multipart_params: args,
+		// Specify what files to browse for
+		filters : [
+			{title : "Music files", extensions : "mp3"},
+		],
+	});
+
+	// Client side form validation
+	$('form').submit(function(e) {
+		var uploader = $('#uploader').pluploadQueue();
+
+		// Validate number of uploaded files
+		if (uploader.total.uploaded == 0) {
+			// Files in queue upload them first
+			if (uploader.files.length > 0) {
+				// When all files are uploaded submit form
+				uploader.bind('UploadProgress', function() {
+					if (uploader.total.uploaded == uploader.files.length)
+						$('form').submit();
+				});
+
+				uploader.start();
+			} else
+				alert('You must at least upload one file.');
+
+			e.preventDefault();
+		}
+	});
+});
+
+</script>
+
+<form method="post" action="#">
+  <div id="uploader" style="height: 330px;">
+	<p>You browser doesn't have Flash, Silverlight, Gears, BrowserPlus or HTML5 support.</p>
+  </div>
+  <input type="submit" value="Upload Music" />
+</form>
+
+

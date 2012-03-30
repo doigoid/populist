@@ -1,0 +1,11 @@
+<div id="playqueue">
+  {% if len(playqueue) == 0 %}
+  <h2>No songs have been requested, upload a song to add it to the queue.</h2>
+  {% else %}
+  <ul>
+  {% for request in playqueue %}
+   <li>{{ request.track.artist }} &mdash; {{ request.track.title }}</li>
+  {% end %}
+  </ul>
+  {% end %}
+</div>

@@ -1,0 +1,30 @@
+{% for item in playlist %}
+<li>
+    <div class="vote">
+      {% if user not in item.voted_for and user.id != item.submit_user.id %}
+      <a class="vote-up" href="#" onclick="populist.playlist.vote('{{item.id}}', 1)"></a>
+      <p>VOTE</p>
+      {% else %}
+      <a class="vote-up voted" href="#"></a>
+      <p class="voted">VOTE</p>
+      {% end %}
+    </div>
+    <div class="track">
+      <div class="right">
+	<p>{{ "%sm%ss" % (int(item.track.length) / 60, int(item.track.length) % 60) }}</p>
+	<abbr class="timeago" title="{{ item.submit_date.isoformat() }}Z"></abbr>
+      </div>
+      <div class="left">
+	<h2><a href="#">{{ item.track.artist }}</a> &mdash; {{ item.track.title }}</h2>
+	<p>
+	  <img src="{{ item.submit_user.thumbnail }}" />
+	  {% for vote in item.votes %}
+	  <img src="{{ vote.user.thumbnail }}" />
+	  {% end %}
+	  <span class="colored">{{ item.weight }} vote{{ item.weight > 1 and 's' or '' }}</span>
+	</p>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+</li>
+{% end %}

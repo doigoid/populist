@@ -1,0 +1,5 @@
+{% if len(listeners) == 1 %}
+<a href="#" class="fg">1 listener (you!)</a>
+{% else %}
+<a href="#" class="fg">{{ len(listeners) }} listeners</a>
+{% end %}

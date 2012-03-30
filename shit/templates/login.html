@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>PopulistFM{% block title %}{% end %}</title>
+<link href="{{ static_url('css/grid.css') }}" media="screen" rel="stylesheet" type="text/css" />
+<link href="{{ static_url('css/ui/ui.css') }}" media="screen" rel="stylesheet" type="text/css" />
+<link href="{{ static_url('css/styles.css') }}" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $("input").click(function(){ $(this).val(''); });
+});
+</script>
+</head>
+<body>
+  <div class="home container_12">
+    
+    <div id="front-logo">
+      <img src="{{ static_url('img/logo_large.png') }}" />
+    </div>
+    
+    <h1>frivolous accounts suck, log in with an existing account...</h1>
+    
+    <div class="grid_4 alpha">
+      <a href="/login/fb">
+        <img src="{{ static_url('img/login_facebook.png') }}" border="0" />
+      </a>
+    </div>
+    
+    <div class="grid_4 alpha">
+      <a href="/login/twitter">
+        <img src="{{ static_url('img/login_twitter.png') }}" border="0" />
+      </a>
+    </div>
+
+    <div class="clear">&nbsp;</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% if results %}
+{% for track in results %}
+<li>
+  <a href="#" onclick="populist.playlist.request('{{ track.id }}'); return false;">
+    <img src="{{ static_url('img/icon-add.png') }}" />
+    <p>{{ "%sm%ss" % (track.length / 60, track.length % 60) }}</p>
+    <div>
+      <strong>{{ track.artist }}</strong>
+      &mdash;
+      {{ track.title }}
+    </div>
+  </a>
+</li>
+{% end %}
+<li>
+
+</li>
+{% else %}
+<li>
+  <h2 align=center>No tracks were found for this artist.</h2>
+</li>
+{% end %}

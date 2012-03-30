@@ -1,0 +1,12 @@
+<li id="m{{ post.id }}">
+  <img class="depiction" src="{{ post.user.thumbnail }}" />
+  <div>
+    <h3>
+      <abbr class="timeago" title="{{ post.created.isoformat() }}Z">
+	
+      </abbr>
+    </h3>
+    <h2>{{ post.user.display_name }}</h2>
+    <p>{{ post.content }}</p>
+  </div>
+</li>

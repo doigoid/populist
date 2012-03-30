@@ -1,0 +1,31 @@
+<div class="track" id="column-headers">
+  <div class="status"><p>VOTES</p></div>
+  <div class="artist"><p>ARTIST</p></div>
+  <div class="song"><p>SONG</p></div>
+  <div class="album"><p>ALBUM</p></div>
+  <div class="genre"><p>GENRE</p></div>
+</div>
+<div class="clear">&nbsp;</div>
+{% for track in queue %}
+<div class="track">
+  <div class="clear">&nbsp;</div>
+  <div class="status">
+    <span class="votes">{{ track['points'] }}</span>
+    <a href="javascript:queue('{{ str(track['_id']) }}',1)" class="up-vote button rounded">&uarr;</a>
+    <a href="javascript:queue('{{ str(track['_id']) }}',0)" class="down-vote button rounded">&darr;</a>
+  </div>
+  <div class="artist">
+    <p>{{ escape(str(track['artist'])) }}</p>
+  </div>
+  <div class="song">
+    <p>{{ escape(str(track['title'])) }}</p>
+  </div>
+  <div class="album">
+    <p>{{ escape(str(track['album'])) }}</p>
+        </div>
+  <div class="genre">
+    <p>{{ escape(str(track['genre'])) }}</p>
+  </div>
+</div>
+<div class="clear">&nbsp;</div>
+{% end %}
