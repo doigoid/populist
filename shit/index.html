@@ -1,0 +1,16 @@
+{% extends "../base.html" %}
+
+{% block title %} - {{ station.title }}{% end %}
+
+{% block scripts %}
+<script type="text/javascript">
+  var queue_init = [
+     {% for i in playlist %}
+     {"id": "{{ i.id }}","artist": "{{ i.track.artist }}", "title": "{{ i.track.title }}", "url": "{{ i.track.path }}"},
+     {% end %}
+  ];
+</script>
+<script type="text/javascript" src="{{ static_url('js/station.js') }}"></script>
+{% end %}
+
+{% block content %}{% end %}
