@@ -43,7 +43,7 @@
       var duration, id, requestItem, seconds, user, voters;
       seconds = parseInt(track.duration, 10);
       duration = "" + (Math.floor(seconds / 60)) + ":" + (seconds % 60);
-      requestItem = $("<li id='" + id + "' class='request clearfix'>\n    <div class='controls clearfix'>\n        <a href='javascript:void 0;' class='vote-up'></a>\n        <a href='javascript:void 0;' class='vote-down'></a>\n    </div>\n    <h4 class='title'>\n        <span class='artist'>" + track.artist + "</span> - <span class='track'>" + track.title + "</span>\n    </h4>\n    <div class='duration'>" + duration + "</div>\n</li>");
+      requestItem = $("<li id='" + id + "' class='request clearfix'>\n    <div class='controls clearfix'>\n        <a href='javascript:void 0;' class='vote-up'></a>\n        <a href='javascript:void 0;' class='vote-down'></a>\n        <div class='votes'>" + track.votes + "</div>\n    </div>\n    <h4 class='title'>\n        <span class='artist'>" + track.artist + "</span> - <span class='track'>" + track.title + "</span>\n    </h4>\n    <div class='duration'>" + duration + "</div>\n</li>");
       voters = (function() {
         var _ref, _results;
         _ref = track.voters;

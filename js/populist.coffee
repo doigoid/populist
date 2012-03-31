@@ -42,6 +42,7 @@ class Populist
             <div class='controls clearfix'>
                 <a href='javascript:void 0;' class='vote-up'></a>
                 <a href='javascript:void 0;' class='vote-down'></a>
+                <div class='votes'>#{ track.votes }</div>
             </div>
             <h4 class='title'>
                 <span class='artist'>#{ track.artist }</span> - <span class='track'>#{ track.title }</span>
