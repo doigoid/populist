@@ -141,6 +141,8 @@ header.module {
 		padding: 0 20px;
 	}
 	.request {
+		padding: 0.5em 0;
+		border-bottom: 2px dotted #ccc;
 		h4 {
 			float: left;
 		}
@@ -159,7 +161,7 @@ header.module {
 	width: 3em;
 }
 .vote-up {
-	border-color: transparent transparent blue transparent;
+	border-color: transparent transparent #cccccc transparent;
 	border-style:solid;
 	border-width:1em;
 	width:0;
@@ -167,7 +169,7 @@ header.module {
 	display: block;
 }
 .vote-down {
-	border-color: red transparent transparent transparent;
+	border-color: #cccccc transparent transparent transparent;
 	border-style:solid;
 	border-width:1em;
 	width:0;
@@ -227,6 +229,8 @@ header.module {
 		header.module { background-color: $bg; }
 		.progress { background-color: invert(opacify($bg, 0.3)); }
 		.loaded { background-color: darken($bg, 40%); }
+		.vote-down { border-top-color: $bg; }
+		.vote-up { border-bottom-color: $bg; }
 	}
 	@media (min-width: 320px) {
 		$bg: transparentize(hsl(50, 100%, 50%), 0.3);
@@ -235,6 +239,8 @@ header.module {
 		.progress { background-color: invert(opacify($bg, 0.3)); }
 		.loaded { background-color: darken($bg, 40%); }
 		.content { 	padding-top: 12em; }
+		.vote-down { border-top-color: $bg; }
+		.vote-up { border-bottom-color: $bg; }
 	}
 	@media (min-width: 480px) {
 		$bg: transparentize(hsl(100, 100%, 50%), 0.3);
@@ -243,18 +249,24 @@ header.module {
 		.progress { background-color: invert(opacify($bg, 0.3)); }
 		.loaded { background-color: darken($bg, 40%); }
 		.content { 	padding-top: 10em; }
+		.vote-down { border-top-color: $bg; }
+		.vote-up { border-bottom-color: $bg; }
 	}
 	@media (min-width: 640px) {
 		$bg: transparentize(hsl(150, 100%, 50%), 0.3);
 		header.module { background-color: $bg; }
 		.progress { background-color: invert(opacify($bg, 0.3)); }
 		.loaded { background-color: darken($bg, 40%); }
+		.vote-down { border-top-color: $bg; }
+		.vote-up { border-bottom-color: $bg; }
 	}
 	@media (min-width: 768px) {
 		$bg: transparentize(hsl(200, 100%, 50%), 0.3);
 		header.module { background-color: $bg; }
 		.progress { background-color: invert(opacify($bg, 0.3)); }
 		.loaded { background-color: darken($bg, 40%); }
+		.vote-down { border-top-color: $bg; }
+		.vote-up { border-bottom-color: $bg; }
 	}
 	@media (min-width: 1024px) {
 		$bg: transparentize(hsl(250, 100%, 50%), 0.3);
@@ -262,12 +274,16 @@ header.module {
 		.progress { background-color: invert(opacify($bg, 0.3)); }
 		.show-on-small-devices { display: none; }
 		.loaded { background-color: darken($bg, 40%); }
+		.vote-down { border-top-color: $bg; }
+		.vote-up { border-bottom-color: $bg; }
 	}
 	@media (min-width: 1200px) {
 		$bg: transparentize(hsl(300, 100%, 50%), 0.3);
 		header.module { background-color: $bg; }
 		.progress { background-color: invert(opacify($bg, 0.3)); }
 		.loaded { background-color: darken($bg, 40%); }
+		.vote-down { border-top-color: $bg; }
+		.vote-up { border-bottom-color: $bg; }
 	}
 }
 

@@ -216,20 +216,23 @@ header.module {
   font-size: 1.5em; }
 .request-queue .bd {
   padding: 0 20px; }
-.request-queue .request h4 {
-  float: left; }
-.request-queue .request .title {
-  float: left;
-  line-height: 4em; }
-.request-queue .request .duration {
-  float: right; }
+.request-queue .request {
+  padding: 0.5em 0;
+  border-bottom: 2px dotted #ccc; }
+  .request-queue .request h4 {
+    float: left; }
+  .request-queue .request .title {
+    float: left;
+    line-height: 4em; }
+  .request-queue .request .duration {
+    float: right; }
 
 .controls {
   float: left;
   width: 3em; }
 
 .vote-up {
-  border-color: transparent transparent blue transparent;
+  border-color: transparent transparent #cccccc transparent;
   border-style: solid;
   border-width: 1em;
   width: 0;
@@ -237,7 +240,7 @@ header.module {
   display: block; }
 
 .vote-down {
-  border-color: red transparent transparent transparent;
+  border-color: #cccccc transparent transparent transparent;
   border-style: solid;
   border-width: 1em;
   width: 0;
@@ -291,7 +294,13 @@ header.module {
     background-color: aqua; }
 
   .loaded {
-    background-color: rgba(51, 0, 0, 0.7); } }
+    background-color: rgba(51, 0, 0, 0.7); }
+
+  .vote-down {
+    border-top-color: rgba(255, 0, 0, 0.7); }
+
+  .vote-up {
+    border-bottom-color: rgba(255, 0, 0, 0.7); } }
 @media screen and (min-width: 320px) {
   body {
     font-size: 0.9em; }
@@ -306,7 +315,13 @@ header.module {
     background-color: rgba(51, 43, 0, 0.7); }
 
   .content {
-    padding-top: 12em; } }
+    padding-top: 12em; }
+
+  .vote-down {
+    border-top-color: rgba(255, 213, 0, 0.7); }
+
+  .vote-up {
+    border-bottom-color: rgba(255, 213, 0, 0.7); } }
 @media screen and (min-width: 480px) {
   body {
     font-size: 1.3em; }
@@ -321,7 +336,13 @@ header.module {
     background-color: rgba(17, 51, 0, 0.7); }
 
   .content {
-    padding-top: 10em; } }
+    padding-top: 10em; }
+
+  .vote-down {
+    border-top-color: rgba(85, 255, 0, 0.7); }
+
+  .vote-up {
+    border-bottom-color: rgba(85, 255, 0, 0.7); } }
 @media screen and (min-width: 640px) {
   header.module {
     background-color: rgba(0, 255, 128, 0.7); }
@@ -330,7 +351,13 @@ header.module {
     background-color: #ff007f; }
 
   .loaded {
-    background-color: rgba(0, 51, 26, 0.7); } }
+    background-color: rgba(0, 51, 26, 0.7); }
+
+  .vote-down {
+    border-top-color: rgba(0, 255, 128, 0.7); }
+
+  .vote-up {
+    border-bottom-color: rgba(0, 255, 128, 0.7); } }
 @media screen and (min-width: 768px) {
   header.module {
     background-color: rgba(0, 170, 255, 0.7); }
@@ -339,7 +366,13 @@ header.module {
     background-color: #ff5500; }
 
   .loaded {
-    background-color: rgba(0, 34, 51, 0.7); } }
+    background-color: rgba(0, 34, 51, 0.7); }
+
+  .vote-down {
+    border-top-color: rgba(0, 170, 255, 0.7); }
+
+  .vote-up {
+    border-bottom-color: rgba(0, 170, 255, 0.7); } }
 @media screen and (min-width: 1024px) {
   header.module {
     background-color: rgba(42, 0, 255, 0.7); }
@@ -351,7 +384,13 @@ header.module {
     display: none; }
 
   .loaded {
-    background-color: rgba(8, 0, 51, 0.7); } }
+    background-color: rgba(8, 0, 51, 0.7); }
+
+  .vote-down {
+    border-top-color: rgba(42, 0, 255, 0.7); }
+
+  .vote-up {
+    border-bottom-color: rgba(42, 0, 255, 0.7); } }
 @media screen and (min-width: 1200px) {
   header.module {
     background-color: rgba(255, 0, 255, 0.7); }
@@ -360,7 +399,13 @@ header.module {
     background-color: lime; }
 
   .loaded {
-    background-color: rgba(51, 0, 51, 0.7); } }
+    background-color: rgba(51, 0, 51, 0.7); }
+
+  .vote-down {
+    border-top-color: rgba(255, 0, 255, 0.7); }
+
+  .vote-up {
+    border-bottom-color: rgba(255, 0, 255, 0.7); } }
 @-webkit-keyframes fadeIn {
   from {
     opacity: 0;
