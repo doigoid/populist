@@ -5,7 +5,6 @@ var Player = (function() {
     loadedBar = null,
     progressBar = null,
     title = null,
-    playlist = null,
     actionBtn = null;
 
   function _handleAudioEvents(e) {
@@ -24,7 +23,7 @@ var Player = (function() {
     progressBar = player.find('.progress');
     title = player.parent().find('.title');
     actionBtn = player.find('#playerBtn');
-    playlist = pl;
+    this.playlist = pl;
     actionBtn.bind('click touchstart', function() {
       if($audio[0].paused) {
         $audio[0].play();

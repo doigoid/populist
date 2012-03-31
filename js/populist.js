@@ -1,30 +1,35 @@
 (function() {
-  var Populist;
+  var Populist, populist;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   Populist = (function() {
     function Populist() {
       this.renderRequestItem = __bind(this.renderRequestItem, this);
       this.onVote = __bind(this.onVote, this);
       this.onRequest = __bind(this.onRequest, this);      this.username = prompt("Your name?");
+      this.player = new Player($("#player"), []);
       this.backends = {
         requests: new Firebase('http://gamma.firebase.com/populist/tracks'),
         chat: new Firebase('http://gamma.firebase.com/populist/chat')
       };
       this.playlist = $('.requests');
-      this.queue = {};
       this.backends.requests.on('value', this.onRequest);
     }
     Populist.prototype.onRequest = function(requestQueue) {
-      var id, requests, track, _ref, _results;
+      var id, playlist, requests, track, _ref;
       this.playlist.html("");
       requests = requestQueue.val();
+      playlist = [];
       _ref = requestQueue.val();
-      _results = [];
       for (id in _ref) {
         track = _ref[id];
-        _results.push(this.renderRequestItem(id, track));
+        this.renderRequestItem(id, track);
+        playlist.push({
+          title: track.title,
+          artist: track.artist,
+          url: track.url
+        });
       }
-      return _results;
+      return this.player.playlist = playlist.reverse();
     };
     Populist.prototype.onVote = function(event) {
       var id, track;
@@ -62,8 +67,8 @@
     };
     return Populist;
   })();
+  populist = null;
   $(function() {
-    var populist;
     return populist = new Populist;
   });
 }).call(this);

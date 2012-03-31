@@ -3,12 +3,14 @@ class Populist
 
         @username = prompt("Your name?")
 
+        @player = new Player($("#player"), [])
+
         @backends =
             requests: new Firebase('http://gamma.firebase.com/populist/tracks')
             chat:     new Firebase('http://gamma.firebase.com/populist/chat')
 
         @playlist = $ '.requests'
-        @queue = {}
+
         # initilize our backends
         @backends.requests.on('value', @onRequest)
         #@backends.chat.on('value', @onChat)
@@ -18,8 +20,16 @@ class Populist
         # rebuild the entire request dom
         @playlist.html ""
         requests = requestQueue.val()
+
+        playlist = []
         for id, track of requestQueue.val()
             @renderRequestItem id, track
+            playlist.push
+                title: track.title
+                artist: track.artist
+                url: track.url
+
+        @player.playlist = playlist.reverse()
 
     onVote: (event) =>
         event.preventDefault()
@@ -59,6 +69,7 @@ class Populist
         requestItem.find('.vote-up').click(@onVote)
         @playlist.prepend requestItem
 
+populist = null
 $ ->
     populist = new Populist
 
