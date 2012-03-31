@@ -1,21 +1,293 @@
 @import 'includes/reset';
 @import 'includes/grid';
-@import 'includes/helpers';
+//@import 'includes/helpers';
 
 /*   STYLE
 -----------------------------------------------------------------------------*/
 
-.container { width: 90%; margin: 0 auto; }
+.chat-open {
+	.chat { -webkit-animation: fadeIn 0.6s linear; display: block; }
+	.main {	-webkit-animation: fadeOut 0.6s linear; display: none; }
+}
 
-header .username { text-align: right; }
+.chat {
+	-webkit-animation: fadeOut 0.6s linear;
+	-webkit-animation-fill-mode: both;
+	display: none;
+}
+.main {
+	-webkit-animation: fadeIn 0.6s linear;
+	-webkit-animation-fill-mode: both;
+}
 
+
+html {
+	font: 62.5% sans-serif;
+	-webkit-text-size-adjust: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+body { background-color: #eeeeee; }
+
+.artist {
+	font-weight: bold;
+}
+
+
+header.module {
+	color: #fff;
+	font-size: 1.3em;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	.text-button {
+		float: left;
+		margin-left: 10px;
+		margin-top: 10px;
+	}
+	.hd {
+		.logo {
+			font-weight: bold;
+			font-size: 1.4em;
+			padding-top: 0.5em;
+			float: left;
+		}
+		.username {
+			color: #fff;
+			font-weight: bold;
+			text-decoration: none;
+		}
+	}
+	.bd {
+		.title {
+	  		margin: 0 5.5em;
+		}
+	}
+}
+
+.wrapper {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.username {
+	float: right;
+	margin-right: 1em;
+	line-height: 44px;
+}
+
+.player {
+	.duration { float: right; line-height: 44px; }
+	.track {
+		position: relative;
+ 		height: 30px;
+  		border: 1px solid #000;
+  		margin: 0 5.5em;
+  		top: 5px;
+  	}
+	.progress {
+		z-index: 2;
+	}
+	.progress, .loaded {
+		position: absolute;
+		height: 100%;
+		top: 0;
+		left: 0;
+	}
+}
+
+.content {
+	padding-top: 16em;
+	background-color: rgba(255,255,255,0.9);
+}
+.request-queue, .make-request {
+	padding: 1em 0;
+}
+.chat-box {
+	padding: 1em 0;
+	.hd, .bd {
+		padding: 0 20px;
+	}
+	textarea {
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		width: 100%;
+	}
+	.messages {
+		padding: 1em 0;
+	}
+	.message {
+		border-bottom: 2px dotted #CCC;
+		padding: 0.7em 0;
+	}
+	.timestamp {
+		float: right;
+	}
+	.name {
+		font-weight: bold;
+	}
+}
+
+.request-queue {
+	.hd {
+		background: transparent url('../img/icon-request-queue-circle.png') 7px center no-repeat;
+		padding-left: 44px;
+		line-height: 44px;
+		text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
+		font-size: 1.5em;
+	}
+	.bd {
+		padding: 0 20px;
+	}
+	.request {
+		h4 {
+			float: left;
+		}
+		.title {
+			float: left;
+			line-height: 4em;
+		}
+		.duration {
+			float: right;
+		}
+	}
+}
+
+.controls {
+	float: left;
+	width: 3em;
+}
+.vote-up {
+	border-color: transparent transparent blue transparent;
+	border-style:solid;
+	border-width:1em;
+	width:0;
+	height:0;
+	display: block;
+}
+.vote-down {
+	border-color: red transparent transparent transparent;
+	border-style:solid;
+	border-width:1em;
+	width:0;
+	height:0;
+	display: block;
+	margin-top: 0.5em;
+}
+
+
+.make-request {
+	.hd {
+		background: transparent url('../img/icon-request-add-circle.png') 7px center no-repeat;
+		padding-left: 44px;
+		line-height: 44px;
+		text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
+		font-size: 1.5em;
+	}
+	.bd {
+		padding: 0 20px;
+		input {
+			width: 100%;
+		}
+	}
+}
+
+.fullscreen {
+	background: transparent url('../img/icon-fullscreen.png') center center no-repeat;
+	padding: 12px;
+	width: 20px;
+	height: 20px;
+	display: block;
+	float: right;
+}
+
+.play {
+	background: transparent url('../img/icon-play.png') center center no-repeat;
+	padding: 12px;
+	width: 20px;
+	height: 20px;
+	display: block;
+	float: left;
+}
+
+.pause {
+	background: transparent url('../img/icon-pause.png') center center no-repeat;
+	padding: 12px;
+	width: 20px;
+	height: 20px;
+	display: block;
+	float: left;
+}
 
 @media screen {
-	@media (min-width: 240px) { body { background-color: hsl(0, 100%, 50%); } }
-	@media (min-width: 320px) { body { background-color: hsl(50, 100%, 50%); } }
-	@media (min-width: 480px) { body { background-color: hsl(100, 100%, 50%); } }
-	@media (min-width: 640px) { body { background-color: hsl(150, 100%, 50%); } }
-	@media (min-width: 768px) { body { background-color: hsl(200, 100%, 50%); } }
-	@media (min-width: 1024px) { body { background-color: hsl(250, 100%, 50%); } }
-	@media (min-width: 1200px) { body { background-color: hsl(300, 100%, 50%); } }
+	@media (min-width: 240px) {
+		$bg: transparentize(hsl(0, 100%, 50%), 0.3);
+		body { font-size: 0.7em; }
+		header.module { background-color: $bg; }
+		.progress { background-color: invert(opacify($bg, 0.3)); }
+		.loaded { background-color: darken($bg, 40%); }
+	}
+	@media (min-width: 320px) {
+		$bg: transparentize(hsl(50, 100%, 50%), 0.3);
+		body { font-size: 0.9em; }
+		header.module { background-color: $bg; }
+		.progress { background-color: invert(opacify($bg, 0.3)); }
+		.loaded { background-color: darken($bg, 40%); }
+		.content { 	padding-top: 12em; }
+	}
+	@media (min-width: 480px) {
+		$bg: transparentize(hsl(100, 100%, 50%), 0.3);
+		body { font-size: 1.3em; }
+		header.module { background-color: $bg; }
+		.progress { background-color: invert(opacify($bg, 0.3)); }
+		.loaded { background-color: darken($bg, 40%); }
+		.content { 	padding-top: 10em; }
+	}
+	@media (min-width: 640px) {
+		$bg: transparentize(hsl(150, 100%, 50%), 0.3);
+		header.module { background-color: $bg; }
+		.progress { background-color: invert(opacify($bg, 0.3)); }
+		.loaded { background-color: darken($bg, 40%); }
+	}
+	@media (min-width: 768px) {
+		$bg: transparentize(hsl(200, 100%, 50%), 0.3);
+		header.module { background-color: $bg; }
+		.progress { background-color: invert(opacify($bg, 0.3)); }
+		.loaded { background-color: darken($bg, 40%); }
+	}
+	@media (min-width: 1024px) {
+		$bg: transparentize(hsl(250, 100%, 50%), 0.3);
+		header.module { background-color: $bg; }
+		.progress { background-color: invert(opacify($bg, 0.3)); }
+		.show-on-small-devices { display: none; }
+		.loaded { background-color: darken($bg, 40%); }
+	}
+	@media (min-width: 1200px) {
+		$bg: transparentize(hsl(300, 100%, 50%), 0.3);
+		header.module { background-color: $bg; }
+		.progress { background-color: invert(opacify($bg, 0.3)); }
+		.loaded { background-color: darken($bg, 40%); }
+	}
+}
+
+@-webkit-keyframes fadeIn {
+	from {
+		opacity: 0;
+		display: none;
+	}
+	to {
+		opacity: 1;
+		display: block;
+	}
+}
+@-webkit-keyframes fadeOut {
+	from {
+		opacity: 1;
+		display: block;
+	}
+	to {
+		opacity: 0;
+		display: none;
+	}
 }

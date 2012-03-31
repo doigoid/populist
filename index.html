@@ -6,23 +6,84 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" media="all">
 </head>
 <body>
-	<header>
-		<div class="line container">
-			<div class="unit size1of2 logo"></div>
-			<div class="unit size1of2 lastUnit username">
-				<a href="javascript:void 0;" data-action="change-username">Your Username</a>
-				<a href="javascript: void 0;" data-action="fullscreen"><div class="icon fullscreen"></div></a>
+	<header class="module">
+		<div class="wrapper">
+			<div class="hd clearfix">
+				<a href="javascript:void 0;" class="fullscreen"></a>
+				<a href="javascript:void 0;" class="username">lifeiscontent</a>
+				<h1 class="logo">PopulistFM</h1>
+				<button class="text-button" onclick="openChat()">Chat</button>
 			</div>
-			<div class="line player">
-				<div class="unit size3of4">
-					<a href="javascript:void 0;" data-action="play"><div class="icon play"></div></a>
+			<div class="bd clearfix">
+				<h2 class="title">This station is currently not playing any music.</h2>
+				<div class="player">
+					<a href="javascript:void 0;" class="play" id="playerBtn"></a>
+					<div class="duration">0:00 / 0:00</div>
+					<div class="track">
+						<div class="loaded" style="width: 60%"></div>
+						<div class="progress" style="width: 25%"></div>
+					</div>
 				</div>
-				<div class="unit size1of4 lastUnit">0:00 / 0:00</div>
 			</div>
 		</div>
 	</header>
-	<section>
-		<div class="container"></div>
-	</section>
+	<section class="wrapper content clearfix">
+		<div class="view main">
+			<div class="module make-request">
+				<div class="hd">
+					<div class="icon"></div>
+					<h3>Make a Request</h3>
+				</div>
+				<div class="bd">
+					<input type="search" id="request-input" placeholder="Enter an artist name" />
+				</div>
+			</div>
+			<div class="module request-queue">
+				<div class="hd">
+					<div class="icon"></div>
+					<h3>Request Queue</h3>
+				</div>
+				<div class="bd">
+					<ol class="requests">
+						<li class="request clearfix">
+							<div class="controls clearfix">
+								<a href="javascript:void 0;" class="vote-up"></a>
+								<a href="javascript:void 0;" class="vote-down"></a>
+							</div>
+							<h4 class="title"><span class="artist">Kings of Convenience</span> - <span class="track">Boat Behind</span></h4>
+							<div class="duration">3:25</div>
+						</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+		<div class="view chat">
+			<div class="module chat-box">
+				<div class="hd">
+					<textarea id="chat-input" placeholder="Got something to say?"></textarea>
+				</div>
+				<div class="bd">
+					<ol class="messages">
+						<li class="message clearfix">
+							<div class="timestamp">7:33 PM</div>
+							<span class="name">Aaron</span>
+							<span class="text">Hello, how are you doing?</span>
+						</li>
+						<li class="message clearfix">
+							<div class="timestamp">7:33 PM</div>
+							<span class="name">Aaron</span>
+							<span class="text">Hello, how are you doing?</span>
+						</li>
+						<li class="message clearfix">
+							<div class="timestamp">7:33 PM</div>
+							<span class="name">Aaron</span>
+							<span class="text">Hello, how are you doing?</span>
+						</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>

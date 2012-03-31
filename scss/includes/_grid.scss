@@ -17,3 +17,16 @@
 .size4of5{width:80%;}
 .size1of6{width:16%;}
 .lastUnit{float:none;width:auto;_position:relative;_left:-3px;_margin-right:-3px;}
+
+.clearfix{
+	zoom:1;
+	&::after{
+		clear: both;
+		content: ".";
+		display: block;
+		font-size: 0;
+		height: 0;
+		line-height: 0;
+		visibility: hidden;
+	}
+}

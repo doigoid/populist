@@ -94,38 +94,287 @@ table {
   _left: -3px;
   _margin-right: -3px; }
 
-/*   HELPERS
------------------------------------------------------------------------------*/
-body * {
-  outline: 1px solid; }
+.clearfix {
+  zoom: 1; }
+  .clearfix::after {
+    clear: both;
+    content: ".";
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    visibility: hidden; }
 
 /*   STYLE
 -----------------------------------------------------------------------------*/
-.container {
+.chat-open .chat {
+  -webkit-animation: fadeIn 0.6s linear;
+  display: block; }
+.chat-open .main {
+  -webkit-animation: fadeOut 0.6s linear;
+  display: none; }
+
+.chat {
+  -webkit-animation: fadeOut 0.6s linear;
+  -webkit-animation-fill-mode: both;
+  display: none; }
+
+.main {
+  -webkit-animation: fadeIn 0.6s linear;
+  -webkit-animation-fill-mode: both; }
+
+html {
+  font: 62.5% sans-serif;
+  -webkit-text-size-adjust: none;
+  -webkit-font-smoothing: antialiased; }
+
+body {
+  background-color: #eeeeee; }
+
+.artist {
+  font-weight: bold; }
+
+header.module {
+  color: #fff;
+  font-size: 1.3em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; }
+  header.module .text-button {
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px; }
+  header.module .hd .logo {
+    font-weight: bold;
+    font-size: 1.4em;
+    padding-top: 0.5em;
+    float: left; }
+  header.module .hd .username {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none; }
+  header.module .bd .title {
+    margin: 0 5.5em; }
+
+.wrapper {
   width: 90%;
   margin: 0 auto; }
 
-header .username {
-  text-align: right; }
+.username {
+  float: right;
+  margin-right: 1em;
+  line-height: 44px; }
+
+.player .duration {
+  float: right;
+  line-height: 44px; }
+.player .track {
+  position: relative;
+  height: 30px;
+  border: 1px solid #000;
+  margin: 0 5.5em;
+  top: 5px; }
+.player .progress {
+  z-index: 2; }
+.player .progress, .player .loaded {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0; }
+
+.content {
+  padding-top: 16em;
+  background-color: rgba(255, 255, 255, 0.9); }
+
+.request-queue, .make-request {
+  padding: 1em 0; }
+
+.chat-box {
+  padding: 1em 0; }
+  .chat-box .hd, .chat-box .bd {
+    padding: 0 20px; }
+  .chat-box textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%; }
+  .chat-box .messages {
+    padding: 1em 0; }
+  .chat-box .message {
+    border-bottom: 2px dotted #CCC;
+    padding: 0.7em 0; }
+  .chat-box .timestamp {
+    float: right; }
+  .chat-box .name {
+    font-weight: bold; }
+
+.request-queue .hd {
+  background: transparent url("../img/icon-request-queue-circle.png") 7px center no-repeat;
+  padding-left: 44px;
+  line-height: 44px;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
+  font-size: 1.5em; }
+.request-queue .bd {
+  padding: 0 20px; }
+.request-queue .request h4 {
+  float: left; }
+.request-queue .request .title {
+  float: left;
+  line-height: 4em; }
+.request-queue .request .duration {
+  float: right; }
+
+.controls {
+  float: left;
+  width: 3em; }
+
+.vote-up {
+  border-color: transparent transparent blue transparent;
+  border-style: solid;
+  border-width: 1em;
+  width: 0;
+  height: 0;
+  display: block; }
+
+.vote-down {
+  border-color: red transparent transparent transparent;
+  border-style: solid;
+  border-width: 1em;
+  width: 0;
+  height: 0;
+  display: block;
+  margin-top: 0.5em; }
+
+.make-request .hd {
+  background: transparent url("../img/icon-request-add-circle.png") 7px center no-repeat;
+  padding-left: 44px;
+  line-height: 44px;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
+  font-size: 1.5em; }
+.make-request .bd {
+  padding: 0 20px; }
+  .make-request .bd input {
+    width: 100%; }
+
+.fullscreen {
+  background: transparent url("../img/icon-fullscreen.png") center center no-repeat;
+  padding: 12px;
+  width: 20px;
+  height: 20px;
+  display: block;
+  float: right; }
+
+.play {
+  background: transparent url("../img/icon-play.png") center center no-repeat;
+  padding: 12px;
+  width: 20px;
+  height: 20px;
+  display: block;
+  float: left; }
+
+.pause {
+  background: transparent url("../img/icon-pause.png") center center no-repeat;
+  padding: 12px;
+  width: 20px;
+  height: 20px;
+  display: block;
+  float: left; }
 
 @media screen and (min-width: 240px) {
   body {
-    background-color: red; } }
+    font-size: 0.7em; }
+
+  header.module {
+    background-color: rgba(255, 0, 0, 0.7); }
+
+  .progress {
+    background-color: aqua; }
+
+  .loaded {
+    background-color: rgba(51, 0, 0, 0.7); } }
 @media screen and (min-width: 320px) {
   body {
-    background-color: #ffd500; } }
+    font-size: 0.9em; }
+
+  header.module {
+    background-color: rgba(255, 213, 0, 0.7); }
+
+  .progress {
+    background-color: #002aff; }
+
+  .loaded {
+    background-color: rgba(51, 43, 0, 0.7); }
+
+  .content {
+    padding-top: 12em; } }
 @media screen and (min-width: 480px) {
   body {
-    background-color: #55ff00; } }
+    font-size: 1.3em; }
+
+  header.module {
+    background-color: rgba(85, 255, 0, 0.7); }
+
+  .progress {
+    background-color: #aa00ff; }
+
+  .loaded {
+    background-color: rgba(17, 51, 0, 0.7); }
+
+  .content {
+    padding-top: 10em; } }
 @media screen and (min-width: 640px) {
-  body {
-    background-color: #00ff80; } }
+  header.module {
+    background-color: rgba(0, 255, 128, 0.7); }
+
+  .progress {
+    background-color: #ff007f; }
+
+  .loaded {
+    background-color: rgba(0, 51, 26, 0.7); } }
 @media screen and (min-width: 768px) {
-  body {
-    background-color: #00aaff; } }
+  header.module {
+    background-color: rgba(0, 170, 255, 0.7); }
+
+  .progress {
+    background-color: #ff5500; }
+
+  .loaded {
+    background-color: rgba(0, 34, 51, 0.7); } }
 @media screen and (min-width: 1024px) {
-  body {
-    background-color: #2a00ff; } }
+  header.module {
+    background-color: rgba(42, 0, 255, 0.7); }
+
+  .progress {
+    background-color: #d5ff00; }
+
+  .show-on-small-devices {
+    display: none; }
+
+  .loaded {
+    background-color: rgba(8, 0, 51, 0.7); } }
 @media screen and (min-width: 1200px) {
-  body {
-    background-color: fuchsia; } }
+  header.module {
+    background-color: rgba(255, 0, 255, 0.7); }
+
+  .progress {
+    background-color: lime; }
+
+  .loaded {
+    background-color: rgba(51, 0, 51, 0.7); } }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+    display: none; }
+
+  to {
+    opacity: 1;
+    display: block; } }
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+    display: block; }
+
+  to {
+    opacity: 0;
+    display: none; } }
