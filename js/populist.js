@@ -1,184 +1,69 @@
-_.templateSettings = {
-  interpolate : /\{\{(.+?)\}\}/g
-};
-
-playing=false;
-refs = {};
-queue = [];
-firebase_url = 'http://gamma.firebase.com/populist/tracks';
-echonest = new EchoNest("B2DH7MOZ0PWGKE2AM");
-firebase_tracks = new Firebase(firebase_url);
-chatMessagesPath = new Firebase('http://gamma.firebase.com/populist/chat');
-
-chatMessagesPath.on('child_added', function(childSnapshot) {
-    // childSnapshot is the added object.  We'll extract the value and use it to append to
-    // our messagesDiv.
-    var message = childSnapshot.val();
-
-	var html = "<li><div><h3><abbr class='timeago'/ title='"+message.timestamp+"' /></h3>";
-	html += "<h2>" + message.name + "</h2><p>" + message.text + "</p></div></li>";
-    $("#messages ul").prepend(html);
-});
-
-// When the user presses enter on the message input, add the chat message to our firebase data.
-$("#chat-message").keypress(function (e) {
-    if (e.keyCode == 13) {
-        // Push a new object onto chatMessagesPath with the name/text that the user entered.
-		var now = new Date();
-		var d = Date.UTC(
-			now.getFullYear(), now.getMonth(), now.getDate(), 
-			now.getHours(), now.getMinutes(), now.getSeconds(), 
-			now.getMilliseconds());  
-        chatMessagesPath.push({
-			name:name,
-			text:$("#chat-message").val(),
-			timestamp: d
-        });
-        $("#chat-message").val("");
+(function() {
+  var Populist;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  Populist = (function() {
+    function Populist() {
+      this.renderRequestItem = __bind(this.renderRequestItem, this);
+      this.onVote = __bind(this.onVote, this);
+      this.onRequest = __bind(this.onRequest, this);      this.username = prompt("Your name?");
+      this.backends = {
+        requests: new Firebase('http://gamma.firebase.com/populist/tracks'),
+        chat: new Firebase('http://gamma.firebase.com/populist/chat')
+      };
+      this.playlist = $('.requests');
+      this.queue = {};
+      this.backends.requests.on('value', this.onRequest);
     }
-});
-
-Populist = (function() {
-	
-	_results = {};
-	_queue = [];
-
-	function Populist() {
-		this.initialize();
-	}
-
-	Populist.prototype.initialize = function() {
-		firebase_tracks.on('value', this.tracksQueue);
-	};
-
-	Populist.prototype.tracksQueue = function(tracks) {
-
-		queue = tracks;
-
-		var queueTemplate = _.template(
-			"<li id='{{ id }}'><div class='vote'>" +
-				"<a class='vote-up' href='#{{ id }}'></a></div>" + 
-				"<div class='track'>" + 
-				"<div class='right'><p>{{ duration }}</p></div>" +
-				"<div class='left'><h2><a href='#'>{{ artist }}</a> - {{ title }}</h2>" +
-				"<span class='colored'>{{ votes }} votes</span></div></div>" + 
-				"<div class='clearfix'></div></li>");
-
-		$("#playlist").html("");
-		
-		var track_objs = [];
-		var track_eles = [];
-		tracks.forEach(function(track) {
-			var id = track.name();
-			
-			refs[id] = new Firebase(firebase_url + '/' + id);
-			var track = track.val();
-			var duration = parseInt(track.duration);
-			var track_json = {
-				id: id,
-				url: track.url,
-				artist: track.artist,
-				title: track.title,
-				duration: parseInt(duration / 60) + ':' + duration % 60,
-				votes: track.votes
-			};
-			track_eles.push(queueTemplate(track_json));
-			track_objs.push(track_json);
-		});
-		
-		queue = track_objs;
-
-		_.each(track_eles.reverse(), function(t) { 
-			$("#playlist").append(t);
-		});
-
-		$("#playlist .vote-up").click(function(e) {
-			e.preventDefault();
-			$(this).hide();
-			var id = $(this).closest('li').attr('id');
-			var trackref = refs[id];
-			trackref.child('votes').transaction(
-				function(votes) { return votes + 1 },
-				function(success, snapshot) {
-					trackref.setPriority(parseInt(snapshot.val()));
-				}
-			);
-			
-		});
-
-		if(!playing) {
-			// only do this once
-			$("audio").attr('src', queue[queue.length-1].url);
-			$("audio")[0].play();
-			$("audio").onend = function(e) {
-				var next = queue[queue.length - 2];
-				var id = queue[queue.length - 1].id;
-				var trackref = refs[id];
-				trackref.remove();
-				this.src = next.url;
-			};
-			playing = true;
-		}
-	};
-
-	Populist.prototype.searchArtist = function(e) {
-
-		var resultTemplate = _.template(
-			"<li id='{{ id }}'>" + 
-				"<a href='{{ url }}'>" + 
-				"<img src='img/icon-add.png' />" + 
-				"<div><strong>{{ artist }}</strong> &mdash; {{ title }}</div>" +
-			"</a></li>");
-
-		e.preventDefault();
-
-		var $results = $("#music-search-results");
-
-		$results.html(
-			"<li><h2 align=center>Searching...</h2></li>"
-		);
-		
-		var artistName = $("#query").val();
-		
-		echonest.artist(artistName).audio(function(tracks) {
-			$results.html("");
-			_.each(tracks.data.audio, function(track) {
-				this._results[track.id] = track;
-				$results.append(
-					$(resultTemplate({
-						id: track.id,
-						url: track.url,
-						artist: track.artist,
-						title: track.title
-					})).click(function(e) {
-						e.preventDefault();
-						var ref = firebase_tracks.push();
-						ref.setWithPriority({
-							id: track.id,
-							url: track.url,
-							artist: track.artist,
-							title: track.title,
-							duration: track.length,
-							votes: 1
-						}, -1);
-						refs[track.id] = ref;
-					})
-				)
-			});
-		});
-	};
-	
-	return Populist;
-
-})();
-
-$(function() {
-	
-	var populist = new Populist;
-	
-	name = prompt("Your name?", "Guest");
-	$("#username").html(name);
-	$("#music-search").submit(populist.searchArtist);
-
-
-});
+    Populist.prototype.onRequest = function(requestQueue) {
+      var id, requests, track, _ref, _results;
+      this.playlist.html("");
+      requests = requestQueue.val();
+      _ref = requestQueue.val();
+      _results = [];
+      for (id in _ref) {
+        track = _ref[id];
+        _results.push(this.renderRequestItem(id, track));
+      }
+      return _results;
+    };
+    Populist.prototype.onVote = function(event) {
+      var id, track;
+      event.preventDefault();
+      $(event.currentTarget).hide();
+      id = $(event.currentTarget).closest('li').attr('id');
+      track = this.backends.requests.child(id);
+      track.child('voters').push(this.username);
+      return track.child('votes').transaction(function(votes) {
+        return votes + 1;
+      }, function(success, snapshot) {
+        return track.setPriority(parseInt(snapshot.val(), 10));
+      });
+    };
+    Populist.prototype.renderRequestItem = function(id, track) {
+      var duration, id, requestItem, seconds, user, voters;
+      seconds = parseInt(track.duration, 10);
+      duration = "" + (Math.floor(seconds / 60)) + ":" + (seconds % 60);
+      requestItem = $("<li id='" + id + "' class='request clearfix'>\n    <div class='controls clearfix'>\n        <a href='javascript:void 0;' class='vote-up'></a>\n        <a href='javascript:void 0;' class='vote-down'></a>\n    </div>\n    <h4 class='title'>\n        <span class='artist'>" + track.artist + "</span> - <span class='track'>" + track.title + "</span>\n    </h4>\n    <div class='duration'>" + duration + "</div>\n</li>");
+      voters = (function() {
+        var _ref, _results;
+        _ref = track.voters;
+        _results = [];
+        for (id in _ref) {
+          user = _ref[id];
+          _results.push(user);
+        }
+        return _results;
+      })();
+      if (voters.indexOf(this.username) !== -1) {
+        requestItem.find('.controls').css('visibility', 'hidden');
+      }
+      requestItem.find('.vote-up').click(this.onVote);
+      return this.playlist.prepend(requestItem);
+    };
+    return Populist;
+  })();
+  $(function() {
+    var populist;
+    return populist = new Populist;
+  });
+}).call(this);
