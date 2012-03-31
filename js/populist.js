@@ -2,7 +2,9 @@ _.templateSettings = {
   interpolate : /\{\{(.+?)\}\}/g
 };
 
+playing=false;
 refs = {};
+queue = [];
 firebase_url = 'http://gamma.firebase.com/populist/tracks';
 echonest = new EchoNest("B2DH7MOZ0PWGKE2AM");
 firebase_tracks = new Firebase(firebase_url);
@@ -23,7 +25,10 @@ $("#chat-message").keypress(function (e) {
     if (e.keyCode == 13) {
         // Push a new object onto chatMessagesPath with the name/text that the user entered.
 		var now = new Date();
-		var d = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());  
+		var d = Date.UTC(
+			now.getFullYear(), now.getMonth(), now.getDate(), 
+			now.getHours(), now.getMinutes(), now.getSeconds(), 
+			now.getMilliseconds());  
         chatMessagesPath.push({
 			name:name,
 			text:$("#chat-message").val(),
@@ -43,13 +48,13 @@ Populist = (function() {
 	}
 
 	Populist.prototype.initialize = function() {
-
 		firebase_tracks.on('value', this.tracksQueue);
 	};
-	
+
 	Populist.prototype.tracksQueue = function(tracks) {
-		_queue = tracks;
-		
+
+		queue = tracks;
+
 		var queueTemplate = _.template(
 			"<li id='{{ id }}'><div class='vote'>" +
 				"<a class='vote-up' href='#{{ id }}'></a></div>" + 
@@ -61,6 +66,7 @@ Populist = (function() {
 
 		$("#playlist").html("");
 		
+		var track_objs = [];
 		var track_eles = [];
 		tracks.forEach(function(track) {
 			var id = track.name();
@@ -68,19 +74,20 @@ Populist = (function() {
 			refs[id] = new Firebase(firebase_url + '/' + id);
 			var track = track.val();
 			var duration = parseInt(track.duration);
-			track_eles.push(
-				queueTemplate({
-					id: id,
-					url: track.url,
-					artist: track.artist,
-					title: track.title,
-					duration: parseInt(duration / 60) + ':' + duration % 60,
-					votes: track.votes
-				})
-			);
+			var track_json = {
+				id: id,
+				url: track.url,
+				artist: track.artist,
+				title: track.title,
+				duration: parseInt(duration / 60) + ':' + duration % 60,
+				votes: track.votes
+			};
+			track_eles.push(queueTemplate(track_json));
+			track_objs.push(track_json);
 		});
 		
-		
+		queue = track_objs;
+
 		_.each(track_eles.reverse(), function(t) { 
 			$("#playlist").append(t);
 		});
@@ -98,6 +105,20 @@ Populist = (function() {
 			);
 			
 		});
+
+		if(!playing) {
+			// only do this once
+			$("audio").attr('src', queue[queue.length-1].url);
+			$("audio")[0].play();
+			$("audio").onend = function(e) {
+				var next = queue[queue.length - 2];
+				var id = queue[queue.length - 1].id;
+				var trackref = refs[id];
+				trackref.remove();
+				this.src = next.url;
+			};
+			playing = true;
+		}
 	};
 
 	Populist.prototype.searchArtist = function(e) {
@@ -152,8 +173,12 @@ Populist = (function() {
 })();
 
 $(function() {
+	
+	var populist = new Populist;
+	
 	name = prompt("Your name?", "Guest");
 	$("#username").html(name);
-	var populist = new Populist;
 	$("#music-search").submit(populist.searchArtist);
+
+
 });
