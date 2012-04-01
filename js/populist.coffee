@@ -2,18 +2,14 @@ class Populist
     constructor: ->
 
         @username = prompt("Your name?")
-
         @player = new Player($("#player"), [])
 
-        @backends =
-            requests: new Firebase('http://gamma.firebase.com/populist/tracks')
-            chat:     new Firebase('http://gamma.firebase.com/populist/chat')
-
+        @backend = new Firebase('http://gamma.firebase.com/populist/tracks')
         @playlist = $ '.requests'
+        @results = $ '.make-request-results'
 
         # initilize our backends
-        @backends.requests.on('value', @onRequest)
-        #@backends.chat.on('value', @onChat)
+        @backend.child('tracks').on('value', @onRequest)
 
     onRequest: (requestQueue) =>
         # this gets called for changes in the request queue
@@ -35,12 +31,35 @@ class Populist
         event.preventDefault()
         $(event.currentTarget).hide()
         id = $(event.currentTarget).closest('li').attr('id')
-        track = @backends.requests.child(id)
+        track = @backend.child('tracks').child(id)
         track.child('voters').push(@username)
         track.child('votes').transaction(
             (votes) -> votes + 1
             (success, snapshot) -> track.setPriority parseInt(snapshot.val(), 10)
         )
+
+    search: (event) =>
+        event.preventDefault()
+        @results.html "<p align='center'>Searching...</p>"
+        query = $('#request-input').val()
+
+        echonest.artist(query).audio (tracks) ->
+                @results.html ""
+                @renderSearchResult t for t in tracks.data.audio
+
+    renderSearchResult: (track) =>
+        searchResult = $("""
+	<div id='#{ track.id }'>
+	  <a href='#{ track.url }'>
+	    <img src='img/icon-add.png' />
+	    <strong>#{ track.artist }</strong> &mdash; #{ track.title }
+	  </a>
+        </div>""")
+
+        searchResult.find('a').click(@request)
+
+        @results.append searchResult
+
 
     renderRequestItem: (id, track) =>
 
@@ -55,7 +74,8 @@ class Populist
                 <div class='votes'>#{ track.votes }</div>
             </div>
             <h4 class='title'>
-                <span class='artist'>#{ track.artist }</span> - <span class='track'>#{ track.title }</span>
+                <span class='artist'>#{ track.artist }</span> -
+		<span class='track'>#{ track.title }</span>
             </h4>
             <div class='duration'>#{ duration }</div>
         </li>""")
