@@ -5,8 +5,10 @@
     function Populist() {
       this.renderRequestItem = __bind(this.renderRequestItem, this);
       this.onVote = __bind(this.onVote, this);
-      this.onRequest = __bind(this.onRequest, this);      this.username = prompt("Your name?");
-      this.player = new Player($("#player"), []);
+      this.onRequest = __bind(this.onRequest, this);
+      this.onPlayerEnd = __bind(this.onPlayerEnd, this);      this.username = prompt("Your name?");
+      this.player = new Player($("#player"));
+      this.player.audio.bind('ended', this.onPlayerEnd);
       this.backends = {
         requests: new Firebase('http://gamma.firebase.com/populist/tracks'),
         chat: new Firebase('http://gamma.firebase.com/populist/chat')
@@ -14,6 +16,18 @@
       this.playlist = $('.requests');
       this.backends.requests.on('value', this.onRequest);
     }
+    Populist.prototype.onPlayerEnd = function(event) {
+      var nextTrack;
+      console.log("ended");
+      nextTrack = this.player.playlist[0];
+      if (nextTrack === this.player.nowPlaying) {
+        this.backends.requests.child(nextTrack.id).remove();
+        nextTrack = this.player.playlist[0];
+      }
+      this.player.nowPlaying = nextTrack;
+      this.player.loadSong(nextTrack);
+      return this.player.play();
+    };
     Populist.prototype.onRequest = function(requestQueue) {
       var id, playlist, requests, track, _ref;
       this.playlist.html("");
@@ -24,12 +38,18 @@
         track = _ref[id];
         this.renderRequestItem(id, track);
         playlist.push({
+          id: id,
           title: track.title,
           artist: track.artist,
           url: track.url
         });
       }
-      return this.player.playlist = playlist.reverse();
+      this.player.playlist = playlist.reverse();
+      if (!this.player.playing) {
+        this.player.nowPlaying = playlist[0];
+        this.player.loadSong(playlist[0]);
+        return this.player.play();
+      }
     };
     Populist.prototype.onVote = function(event) {
       var id, track;
@@ -69,6 +89,6 @@
   })();
   populist = null;
   $(function() {
-    return populist = new Populist;
+    return window.populist = new Populist;
   });
 }).call(this);

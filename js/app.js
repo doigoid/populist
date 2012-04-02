@@ -8,7 +8,7 @@ var Player = (function() {
     actionBtn = null;
 
   function _handleAudioEvents(e) {
-    console.log(e.type, e);
+    //console.log(e.type, e);
     if(e.type === "canplay") {
       this.play();
     }
@@ -24,6 +24,7 @@ var Player = (function() {
     title = player.parent().find('.title');
     actionBtn = player.find('#playerBtn');
     this.playlist = pl;
+	this.playing = false;
     actionBtn.bind('click touchstart', function() {
       if($audio[0].paused) {
         $audio[0].play();
@@ -31,16 +32,19 @@ var Player = (function() {
         $audio[0].pause();
       }
     });
+	this.audio = $($audio[0]);
   }
   Player.prototype.play = function() {
+	this.playing = true;
     $audio[0].play();
   };
   Player.prototype.pause = function() {
+	this.playing = false;
     $audio[0].pause();
   };
-  Player.prototype.loadSong = function(url, artist, song) {
-    $audio.attr('src', url);
-    title.html('<span class="artist">'+artist+'</span> - <span class="text">'+song+'</span>');
+  Player.prototype.loadSong = function(track) {
+    $audio.attr('src', track.url);
+    title.html('<span class="artist">'+track.artist+'</span> - <span class="text">'+track.title+'</span>');
   };
 
   $audio.bind('abort canplay canplaythrough durationchange emptied ended error loadeddata loadedmetadata loadstart pause play playing progress ratechange seeked seeking stalled suspend timeupdate volumechange waiting', _handleAudioEvents);
@@ -53,5 +57,5 @@ function openChat() {
 }
 
 function tellMe(e) {
-  console.log(e.type);
+	//console.log(e.type);
 }

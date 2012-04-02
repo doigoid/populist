@@ -3,7 +3,8 @@ class Populist
 
         @username = prompt("Your name?")
 
-        @player = new Player($("#player"), [])
+        @player = new Player($("#player"))
+        @player.audio.bind('ended', @onPlayerEnd)
 
         @backends =
             requests: new Firebase('http://gamma.firebase.com/populist/tracks')
@@ -15,6 +16,16 @@ class Populist
         @backends.requests.on('value', @onRequest)
         #@backends.chat.on('value', @onChat)
 
+    onPlayerEnd: (event) =>
+        console.log("ended")
+        nextTrack = @player.playlist[0]
+        if nextTrack == @player.nowPlaying
+            @backends.requests.child(nextTrack.id).remove()
+            nextTrack = @player.playlist[0]
+        @player.nowPlaying = nextTrack
+        @player.loadSong(nextTrack)
+        @player.play()
+
     onRequest: (requestQueue) =>
         # this gets called for changes in the request queue
         # rebuild the entire request dom
@@ -25,11 +36,16 @@ class Populist
         for id, track of requestQueue.val()
             @renderRequestItem id, track
             playlist.push
+                id: id
                 title: track.title
                 artist: track.artist
                 url: track.url
 
         @player.playlist = playlist.reverse()
+        if !@player.playing
+            @player.nowPlaying = playlist[0]
+            @player.loadSong(playlist[0])
+            @player.play()
 
     onVote: (event) =>
         event.preventDefault()
@@ -71,5 +87,5 @@ class Populist
 
 populist = null
 $ ->
-    populist = new Populist
+    window.populist = new Populist
 
