@@ -1,27 +1,35 @@
+echonest = new EchoNest("B2DH7MOZ0PWGKE2AM")
+
 class Populist
     constructor: ->
 
-        @username = prompt("Your name?")
+        @username = prompt("Your name?", "Unnamed")
 
         @player = new Player($("#player"), [])
         @player.audio.bind('ended', @onPlayerEnd)
 
-        @backend = new Firebase('http://gamma.firebase.com/populist/tracks')
+        @backend = new Firebase('http://gamma.firebase.com/populist/')
         @playlist = $ '.requests'
         @results = $ '.make-request-results'
+
+        $("#request-input").keypress((e) =>
+            if e.keyCode == 13
+                @search e
+        )
 
         # initilize our backends
         @backend.child('tracks').on('value', @onRequest)
 
     onPlayerEnd: (event) =>
-        console.log("ended")
+        @player.playing = false
         nextTrack = @player.playlist[0]
+        if nextTrack is undefined
+            return
         if nextTrack == @player.nowPlaying
-            @backends.requests.child(nextTrack.id).remove()
+            @backend.child('tracks/' + nextTrack.id).remove()
             nextTrack = @player.playlist[0]
-        @player.nowPlaying = nextTrack
-        @player.loadSong(nextTrack)
-        @player.play()
+
+        @playSong(nextTrack)
 
     onRequest: (requestQueue) =>
         # this gets called for changes in the request queue
@@ -31,18 +39,24 @@ class Populist
 
         playlist = []
         for id, track of requestQueue.val()
-            @renderRequestItem id, track
-            playlist.push
-                id: id
-                title: track.title
-                artist: track.artist
-                url: track.url
+            if !@player.playing or @player.nowPlaying.id != id
+                @renderRequestItem id, track
+                playlist.push
+                    id: id
+                    title: track.title
+                    artist: track.artist
+                    url: track.url
 
         @player.playlist = playlist.reverse()
-        if !@player.playing
-            @player.nowPlaying = playlist[0]
-            @player.loadSong(playlist[0])
-            @player.play()
+        if !@player.playing and playlist.length
+            @playSong playlist[0]
+
+    playSong: (track) =>
+        @player.nowPlaying = track
+        @player.loadSong(track)
+        @player.play()
+
+        @playlist.find("##{track.id}").fadeOut()
 
     onVote: (event) =>
         event.preventDefault()
@@ -56,24 +70,37 @@ class Populist
         )
 
     search: (event) =>
-        event.preventDefault()
         @results.html "<p align='center'>Searching...</p>"
         query = $('#request-input').val()
 
-        echonest.artist(query).audio (tracks) ->
+        echonest.artist(query).audio (tracks) =>
                 @results.html ""
                 @renderSearchResult t for t in tracks.data.audio
 
+    addRequest: (id, url, artist, title, length) =>
+        ref = @backend.child('tracks').push()
+        ref.setWithPriority({
+            id: id,
+            url: url,
+            artist: artist,
+            title: title,
+            duration: length,
+            votes: 1
+        }, -1)
+        @results.html ""
+
     renderSearchResult: (track) =>
         searchResult = $("""
-	<div id='#{ track.id }'>
-	  <a href='#{ track.url }'>
-	    <img src='img/icon-add.png' />
-	    <strong>#{ track.artist }</strong> &mdash; #{ track.title }
-	  </a>
+        <div id='#{ track.id }'>
+            <a href='#{ track.url }'>
+                <img src='img/icon-add.png' />
+                <strong>#{ track.artist }</strong> &mdash; #{ track.title }
+            </a>
         </div>""")
 
-        searchResult.find('a').click(@request)
+        searchResult.find('a').click (event) =>
+            event.preventDefault()
+            @addRequest track.id, track.url, track.artist, track.title, track.length
 
         @results.append searchResult
 

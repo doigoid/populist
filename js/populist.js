@@ -1,37 +1,42 @@
 (function() {
-  var Populist, populist,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
+  var Populist, echonest, populist;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  echonest = new EchoNest("B2DH7MOZ0PWGKE2AM");
   Populist = (function() {
-
     function Populist() {
       this.renderRequestItem = __bind(this.renderRequestItem, this);
       this.renderSearchResult = __bind(this.renderSearchResult, this);
+      this.addRequest = __bind(this.addRequest, this);
       this.search = __bind(this.search, this);
       this.onVote = __bind(this.onVote, this);
+      this.playSong = __bind(this.playSong, this);
       this.onRequest = __bind(this.onRequest, this);
-      this.onPlayerEnd = __bind(this.onPlayerEnd, this);      this.username = prompt("Your name?");
+      this.onPlayerEnd = __bind(this.onPlayerEnd, this);      this.username = prompt("Your name?", "Unnamed");
       this.player = new Player($("#player"), []);
       this.player.audio.bind('ended', this.onPlayerEnd);
-      this.backend = new Firebase('http://gamma.firebase.com/populist/tracks');
+      this.backend = new Firebase('http://gamma.firebase.com/populist/');
       this.playlist = $('.requests');
       this.results = $('.make-request-results');
+      $("#request-input").keypress(__bind(function(e) {
+        if (e.keyCode === 13) {
+          return this.search(e);
+        }
+      }, this));
       this.backend.child('tracks').on('value', this.onRequest);
     }
-
     Populist.prototype.onPlayerEnd = function(event) {
       var nextTrack;
-      console.log("ended");
+      this.player.playing = false;
       nextTrack = this.player.playlist[0];
+      if (nextTrack === void 0) {
+        return;
+      }
       if (nextTrack === this.player.nowPlaying) {
-        this.backends.requests.child(nextTrack.id).remove();
+        this.backend.child('tracks/' + nextTrack.id).remove();
         nextTrack = this.player.playlist[0];
       }
-      this.player.nowPlaying = nextTrack;
-      this.player.loadSong(nextTrack);
-      return this.player.play();
+      return this.playSong(nextTrack);
     };
-
     Populist.prototype.onRequest = function(requestQueue) {
       var id, playlist, requests, track, _ref;
       this.playlist.html("");
@@ -40,22 +45,27 @@
       _ref = requestQueue.val();
       for (id in _ref) {
         track = _ref[id];
-        this.renderRequestItem(id, track);
-        playlist.push({
-          id: id,
-          title: track.title,
-          artist: track.artist,
-          url: track.url
-        });
+        if (!this.player.playing || this.player.nowPlaying.id !== id) {
+          this.renderRequestItem(id, track);
+          playlist.push({
+            id: id,
+            title: track.title,
+            artist: track.artist,
+            url: track.url
+          });
+        }
       }
       this.player.playlist = playlist.reverse();
-      if (!this.player.playing) {
-        this.player.nowPlaying = playlist[0];
-        this.player.loadSong(playlist[0]);
-        return this.player.play();
+      if (!this.player.playing && playlist.length) {
+        return this.playSong(playlist[0]);
       }
     };
-
+    Populist.prototype.playSong = function(track) {
+      this.player.nowPlaying = track;
+      this.player.loadSong(track);
+      this.player.play();
+      return this.playlist.find("#" + track.id).fadeOut();
+    };
     Populist.prototype.onVote = function(event) {
       var id, track;
       event.preventDefault();
@@ -69,13 +79,11 @@
         return track.setPriority(parseInt(snapshot.val(), 10));
       });
     };
-
     Populist.prototype.search = function(event) {
       var query;
-      event.preventDefault();
       this.results.html("<p align='center'>Searching...</p>");
       query = $('#request-input').val();
-      return echonest.artist(query).audio(function(tracks) {
+      return echonest.artist(query).audio(__bind(function(tracks) {
         var t, _i, _len, _ref, _results;
         this.results.html("");
         _ref = tracks.data.audio;
@@ -85,16 +93,30 @@
           _results.push(this.renderSearchResult(t));
         }
         return _results;
-      });
+      }, this));
     };
-
+    Populist.prototype.addRequest = function(id, url, artist, title, length) {
+      var ref;
+      ref = this.backend.child('tracks').push();
+      ref.setWithPriority({
+        id: id,
+        url: url,
+        artist: artist,
+        title: title,
+        duration: length,
+        votes: 1
+      }, -1);
+      return this.results.html("");
+    };
     Populist.prototype.renderSearchResult = function(track) {
       var searchResult;
-      searchResult = $("<div id='" + track.id + "'>\n  <a href='" + track.url + "'>\n    <img src='img/icon-add.png' />\n    <strong>" + track.artist + "</strong> &mdash; " + track.title + "\n  </a>\n        </div>");
-      searchResult.find('a').click(this.request);
+      searchResult = $("<div id='" + track.id + "'>\n    <a href='" + track.url + "'>\n        <img src='img/icon-add.png' />\n        <strong>" + track.artist + "</strong> &mdash; " + track.title + "\n    </a>\n</div>");
+      searchResult.find('a').click(__bind(function(event) {
+        event.preventDefault();
+        return this.addRequest(track.id, track.url, track.artist, track.title, track.length);
+      }, this));
       return this.results.append(searchResult);
     };
-
     Populist.prototype.renderRequestItem = function(id, track) {
       var duration, id, requestItem, seconds, user, voters;
       seconds = parseInt(track.duration, 10);
@@ -116,15 +138,10 @@
       requestItem.find('.vote-up').click(this.onVote);
       return this.playlist.prepend(requestItem);
     };
-
     return Populist;
-
   })();
-
   populist = null;
-
   $(function() {
     return window.populist = new Populist;
   });
-
 }).call(this);
