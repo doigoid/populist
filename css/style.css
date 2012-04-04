@@ -205,7 +205,7 @@ header.module {
     padding: 0.7em 0; }
   .chat-box .timestamp {
     float: right; }
-  .chat-box .name {
+  .chat-box .user {
     font-weight: bold; }
 
 .request-queue .hd {

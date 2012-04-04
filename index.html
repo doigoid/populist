@@ -11,15 +11,15 @@
 		<div class="wrapper">
 			<div class="hd clearfix">
 				<a href="javascript:void 0;" class="fullscreen"></a>
-				<a href="javascript:void 0;" class="username"></a>
+				<a href="javascript:void 0;" class="username" id="username"></a>
 				<h1 class="logo">PopulistFM</h1>
-				<button class="text-button" onclick="openChat()">Chat</button>
+				<button class="text-button" id="chat-button">Chat</button>
 			</div>
 			<div class="bd clearfix">
 				<h2 class="title">This station is currently not playing any music.</h2>
 				<div class="player" id="player">
 					<a href="javascript:void 0;" class="play" id="playerBtn"></a>
-					<div class="duration">0:00 / 0:00</div>
+					<div class="duration"><span class="elapsed">0:00</span> / <span class="total">0:00</span></div>
 					<div class="track">
 						<div class="loaded" style="width: 0%"></div>
 						<div class="progress" style="width: 0%"></div>
@@ -38,8 +38,7 @@
 				<div class="bd">
 					<input type="search" id="request-input" placeholder="Enter an artist name" />
 				</div>
-				<div class="bd make-request-results">
-				</div>
+				<div class="bd make-request-results"></div>
 			</div>
 			<div class="module request-queue">
 				<div class="hd">
@@ -57,31 +56,15 @@
 					<textarea id="chat-input" placeholder="Got something to say?"></textarea>
 				</div>
 				<div class="bd">
-					<ol class="messages">
-						<li class="message clearfix">
-							<div class="timestamp">7:33 PM</div>
-							<span class="name">Aaron</span>
-							<span class="text">Hello, how are you doing?</span>
-						</li>
-						<li class="message clearfix">
-							<div class="timestamp">7:33 PM</div>
-							<span class="name">Aaron</span>
-							<span class="text">Hello, how are you doing?</span>
-						</li>
-						<li class="message clearfix">
-							<div class="timestamp">7:33 PM</div>
-							<span class="name">Aaron</span>
-							<span class="text">Hello, how are you doing?</span>
-						</li>
-					</ol>
+					<ol class="messages"></ol>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
 	<script type="text/javascript" src="js/jquery.echonest.js"></script>
-	<script type="text/javascript" src="js/populist.js"></script>
+	<script type="text/javascript" src="js/emitter.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>

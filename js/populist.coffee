@@ -119,7 +119,7 @@ class Populist
             </div>
             <h4 class='title'>
                 <span class='artist'>#{ track.artist }</span> -
-		<span class='track'>#{ track.title }</span>
+        		<span class='track'>#{ track.title }</span>
             </h4>
             <div class='duration'>#{ duration }</div>
         </li>""")
