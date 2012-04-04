@@ -143,12 +143,8 @@ header.module {
 	.request {
 		padding: 0.5em 0;
 		border-bottom: 2px dotted #ccc;
-		h4 {
-			float: left;
-		}
 		.title {
-			float: left;
-			line-height: 4em;
+			line-height: 1.5em;
 		}
 		.duration {
 			float: right;

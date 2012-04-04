@@ -219,11 +219,8 @@ header.module {
 .request-queue .request {
   padding: 0.5em 0;
   border-bottom: 2px dotted #ccc; }
-  .request-queue .request h4 {
-    float: left; }
   .request-queue .request .title {
-    float: left;
-    line-height: 4em; }
+    line-height: 1.5em; }
   .request-queue .request .duration {
     float: right; }
 

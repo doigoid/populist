@@ -17,27 +17,23 @@ helpers =
     return "#{h}:#{m} #{ap}"
   canPlayAudio: (url, callback) ->
     # this function is async
-    audio = new Audio()
     try
-
-      if audio.canPlayType("audio/mpeg") isnt "no"
-        console.log "it isn't no"
-        callback true
+      audio = new Audio()
+      if audio.canPlayType("audio/mpeg") isnt "no" then callback true
 
       audio.oncanplaythrough = (event) ->
         callback true
         return
+
       audio.onerror = (event) ->
-        console.log "onerror"
         callback false, @error
         return
 
       audio.src = url
       audio.load()
-      console.log audio
       return
+
     catch error
-      console.log "catch"
       callback false, error
       return
 
@@ -62,8 +58,7 @@ class Player
     emitter.emit "Player::pause"
 
   getTracks: (snapshot) ->
-    console.log snapshot.val()
-    emitter.emit "Player::getTracks"
+    emitter.emit "Player::getTracks", snapshot.val()
 
 
 class Chat
@@ -78,7 +73,6 @@ class Chat
     @setUsername("What is your name?")
     # Events
     @messages.limit(100).on "child_added", @getMessages
-
     $chatInput.keypress @sendMessage
 
   setUsername: (message) ->
@@ -142,15 +136,12 @@ class Populist
     $username.click => @chat.setUsername "What is your name?"; return
     $chatBtn.click => @chat.toggleChat(); return
     emitter.on "Chat::setUsername", (username) -> $username.html(helpers.sanitizeInput username); return
-    emitter.on "Player::getTracks", @updateRequestQueue
+    emitter.on "Player::getTracks", @setRequest
     $requestInput.keypress @doSearch
 
-  updateRequestQueue: (tracks) ->
-
-  setRequest: ->
   doSearch: (event) =>
     if event.keyCode is 13
-      $results.html "<p align='center'>Searching...</p>"
+      $results.html "<p style='text-align:center;'>Searching...</p>"
       query = $('#request-input').val()
       echonest.artist(query).audio (tracks) =>
         $results.html ""
@@ -158,22 +149,52 @@ class Populist
       false
 
   createRequest: (track) =>
-     helpers.canPlayAudio track.url, (canPlay, error) ->
-      console.log canPlay, error
+     helpers.canPlayAudio track.url, (canPlay, error) =>
       if canPlay
-        @player.tracks.push().setWithPriority({
-          id: track.id,
-          url: track.url,
-          artist: track.artist,
-          title: track.title,
-          duration: track.length,
+        @player.tracks.push().setWithPriority(
+          id: track.id
+          url: track.url
+          artist: track.artist
+          title: track.title
+          duration: track.length
           votes: 1
-        }, -1)
-        $requestInput.val ''
+          voters: [@chat.user]
+        , -1)
+        $requestInput.val ""
+        $results.html ""
       else
-        #alert "Sorry, this song won't play on our player."
+        alert "Sorry, this song won't play on our player."
 
-    $results.html ""
+  setRequest: (track) =>
+    console.log track
+    s = parseInt track.duration, 10
+    m = Math.floor(s / 60)
+    s = ("0" + (s % 60)).slice(-2)
+    duration = "#{m}:#{s}"
+
+    requestItem = $("""
+    <li id='#{ track.id }' class='request clearfix'>
+        <h4 class='title'>
+            <span class='artist'>#{ track.artist }</span> -
+            <span class='track'>#{ track.title }</span>
+        </h4>
+        <div class='info clearfix'>
+          <div class='controls clearfix'>
+            <a href='javascript:void 0;' class='vote-up'></a>
+            <a href='javascript:void 0;' class='vote-down'></a>
+            <div class='votes'>#{track.votes} Vote#{if track.votes > 1 then 's' else ''}</div>
+          </div>
+          <div class='duration'>#{ duration }</div>
+        </div>
+    </li>""")
+
+    if track.voters.indexOf(@chat.user) != -1
+      requestItem.find(".controls").find("a").remove()
+    
+    requestItem.find(".vote-down").click(@onVote)
+    requestItem.find(".vote-up").click(@onVote)
+    $tracks.append requestItem
+
 
   setSearchResult: (track) =>
         searchResult = $("""

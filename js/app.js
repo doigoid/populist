@@ -25,24 +25,18 @@
     },
     canPlayAudio: function(url, callback) {
       var audio;
-      audio = new Audio();
       try {
-        if (audio.canPlayType("audio/mpeg") !== "no") {
-          console.log("it isn't no");
-          callback(true);
-        }
+        audio = new Audio();
+        if (audio.canPlayType("audio/mpeg") !== "no") callback(true);
         audio.oncanplaythrough = function(event) {
           callback(true);
         };
         audio.onerror = function(event) {
-          console.log("onerror");
           callback(false, this.error);
         };
         audio.src = url;
         audio.load();
-        console.log(audio);
       } catch (error) {
-        console.log("catch");
         callback(false, error);
       }
     }
@@ -70,8 +64,7 @@
     };
 
     Player.prototype.getTracks = function(snapshot) {
-      console.log(snapshot.val());
-      return emitter.emit("Player::getTracks");
+      return emitter.emit("Player::getTracks", snapshot.val());
     };
 
     return Player;
@@ -163,6 +156,7 @@
 
     function Populist() {
       this.setSearchResult = __bind(this.setSearchResult, this);
+      this.setRequest = __bind(this.setRequest, this);
       this.createRequest = __bind(this.createRequest, this);
       this.doSearch = __bind(this.doSearch, this);
       var _this = this;
@@ -177,19 +171,15 @@
       emitter.on("Chat::setUsername", function(username) {
         $username.html(helpers.sanitizeInput(username));
       });
-      emitter.on("Player::getTracks", this.updateRequestQueue);
+      emitter.on("Player::getTracks", this.setRequest);
       $requestInput.keypress(this.doSearch);
     }
-
-    Populist.prototype.updateRequestQueue = function(tracks) {};
-
-    Populist.prototype.setRequest = function() {};
 
     Populist.prototype.doSearch = function(event) {
       var query,
         _this = this;
       if (event.keyCode === 13) {
-        $results.html("<p align='center'>Searching...</p>");
+        $results.html("<p style='text-align:center;'>Searching...</p>");
         query = $('#request-input').val();
         echonest.artist(query).audio(function(tracks) {
           var track, _i, _len, _ref, _results;
@@ -207,25 +197,41 @@
     };
 
     Populist.prototype.createRequest = function(track) {
+      var _this = this;
       return helpers.canPlayAudio(track.url, function(canPlay, error) {
-        console.log(canPlay, error);
         if (canPlay) {
-          this.player.tracks.push().setWithPriority({
+          _this.player.tracks.push().setWithPriority({
             id: track.id,
             url: track.url,
             artist: track.artist,
             title: track.title,
             duration: track.length,
-            votes: 1
+            votes: 1,
+            voters: [_this.chat.user]
           }, -1);
-          return $requestInput.val('');
+          $requestInput.val("");
+          return $results.html("");
         } else {
-
+          return alert("Sorry, this song won't play on our player.");
         }
       });
     };
 
-    $results.html("");
+    Populist.prototype.setRequest = function(track) {
+      var duration, m, requestItem, s;
+      console.log(track);
+      s = parseInt(track.duration, 10);
+      m = Math.floor(s / 60);
+      s = ("0" + (s % 60)).slice(-2);
+      duration = "" + m + ":" + s;
+      requestItem = $("<li id='" + track.id + "' class='request clearfix'>\n    <h4 class='title'>\n        <span class='artist'>" + track.artist + "</span> -\n        <span class='track'>" + track.title + "</span>\n    </h4>\n    <div class='info clearfix'>\n      <div class='controls clearfix'>\n        <a href='javascript:void 0;' class='vote-up'></a>\n        <a href='javascript:void 0;' class='vote-down'></a>\n        <div class='votes'>" + track.votes + " Vote" + (track.votes > 1 ? 's' : '') + "</div>\n      </div>\n      <div class='duration'>" + duration + "</div>\n    </div>\n</li>");
+      if (track.voters.indexOf(this.chat.user) !== -1) {
+        requestItem.find(".controls").find("a").remove();
+      }
+      requestItem.find(".vote-down").click(this.onVote);
+      requestItem.find(".vote-up").click(this.onVote);
+      return $tracks.append(requestItem);
+    };
 
     Populist.prototype.setSearchResult = function(track) {
       var searchResult,
