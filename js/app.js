@@ -6,5 +6,10 @@ MessageList = Backbone.Collection.extend({
 });
 messages = new MessageList();
 firebase.child('messages').on('child_added', function(snapshot) {
-  messages.add(snapshot.val());
+  message = snapshot.val();
+  message.id = snapshot.name();
+  messages.add(message);
+});
+firebase.child('messages').on('child_removed', function(snapshot) {
+  messages.remove(messages.where({id: snapshot.name()}));
 });
