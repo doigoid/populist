@@ -1,71 +1,121 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
-<head>
-	<meta charset="UTF-8">
-	<title>Populist</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css" media="all">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-</head>
-<body>
-	<header class="module">
-		<div class="wrapper">
-			<div class="hd clearfix">
-				<a href="javascript:void 0;" class="fullscreen"></a>
-				<a href="javascript:void 0;" class="username" id="username"></a>
-				<h1 class="logo">PopulistFM</h1>
-				<button class="text-button" id="chat-button">Chat</button>
-			</div>
-			<div class="bd clearfix">
-				<h2 class="title">This station is currently not playing any music.</h2>
-				<div class="player" id="player">
-					<a href="javascript:void 0;" class="play" id="playerBtn"></a>
-					<div class="duration"><span class="elapsed">0:00</span> / <span class="total">0:00</span></div>
+	<head>
+		<meta charset="UTF-8">
+		<title>Populist</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css" media="all">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	</head>
+	<body>
+		<header class="top-bar">
+			<div class="wrapper">
+				<div class="information">
+					<h1 class="logo">Populist.FM</h1>
+					<div class="controls clearfix">
+						<a href="javascript:;" class="chat icon">Chat</a>
+					</div>
+				<div class="player">
+					<marquee class="title">This station is currently not playing any music.</marquee>
 					<div class="track">
-						<div class="loaded" style="width: 0%"></div>
-						<div class="progress" style="width: 0%"></div>
+						<div class="loaded" style="width:75%"></div>
+						<div class="progress" style="width:50%"></div>
+					</div>
+					<div class="user-interface clearfix">
+						<div class="controls">
+							<a href="javascript:;" class="play">&#9654;</a>
+							<a href="javascript:;" class="pause" style="display:none">&#124;&#124;</a>
+						</div>
+						<div class="information">
+							<time datetime="P0M,00S" class="elapsed">0:00</time>
+							<span> / </span>
+							<time datetime="P0M,00S" class="duration">0:00</time>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</header>
-	<section class="wrapper content clearfix">
-		<div class="view main">
-			<div class="module make-request">
-				<div class="hd">
-					<div class="icon"></div>
-					<h3>Make a Request</h3>
-				</div>
+		</header>
+		<div class="wrapper main">
+			<section class="module make-request">
+				<div class="hd"><h1>Make a Request</h1></div>
 				<div class="bd">
-					<input type="search" id="request-input" placeholder="Enter an artist name" />
+					<input type="search" placeholder="Search by Artist or Title" />
+					<ol>
+						<li class="track">
+							<a href="#">
+								<div class="title">Title</div>
+								<div class="artist">Artist</div>
+							</a>
+						</li>
+					</ol>
 				</div>
-				<div class="bd make-request-results"></div>
-			</div>
-			<div class="module request-queue">
-				<div class="hd">
-					<div class="icon"></div>
-					<h3>Request Queue</h3>
-				</div>
+			</section>
+			<section class="module request-queue">
+				<div class="hd"><h1>Request Queue</h1></div>
 				<div class="bd">
-					<ol class="requests"></ol>
+					<ol>
+						<li class="track" data-id="1">
+							<div class="title">Title</div>
+							<div class="artist">Artist</div>
+							<div class="clearfix">
+								<div class="controls">
+									<a href="javascript:;" class="vote">&#9650;</a>
+									<a href="javascript:;" class="vote">&#9660;</a>
+								</div>
+								<div class="information">
+									<time datetime="P0M,00S" class="duration">0:00</time>
+									<div class="votes">0 Votes</div>
+								</div>
+							</div>
+						</li>
+						<li class="track" data-id="1">
+							<div class="title">Title</div>
+							<div class="artist">Artist</div>
+							<div class="clearfix">
+								<div class="controls">
+									<a href="javascript:;" class="vote">&#9650;</a>
+									<a href="javascript:;" class="vote">&#9660;</a>
+								</div>
+								<div class="information">
+									<time datetime="P0M,00S" class="duration">0:00</time>
+									<div class="votes">0 Votes</div>
+								</div>
+							</div>
+						</li>
+						<li class="track" data-id="1">
+							<div class="title">Title</div>
+							<div class="artist">Artist</div>
+							<div class="clearfix">
+								<div class="controls">
+									<a href="javascript:;" class="vote">&#9650;</a>
+									<a href="javascript:;" class="vote">&#9660;</a>
+								</div>
+								<div class="information">
+									<time datetime="P0M,00S" class="duration">0:00</time>
+									<div class="votes">0 Votes</div>
+								</div>
+							</div>
+						</li>
+					</ol>
 				</div>
-			</div>
-		</div>
-		<div class="view chat">
-			<div class="module chat-box">
-				<div class="hd">
-					<textarea id="chat-input" placeholder="Got something to say?"></textarea>
-				</div>
+			</section>
+			<section class="module chat">
+				<div class="hd"><h1>Chat</h1></div>
 				<div class="bd">
-					<ol class="messages"></ol>
+					<ol>
+						<li class="message">
+							<div class="information clearfix">
+								<div class="user">Aaron</div>
+								<time datetime="2012-04-10T05:46:12.503Z" class="time">8:00PM</time>
+							</div>
+							<div class="text">Hello</div>
+						</li>
+					</ol>
 				</div>
-			</div>
+			</section>
 		</div>
-	</section>
-	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
-	<script type="text/javascript" src="js/jquery.echonest.js"></script>
+	</body>
+	<script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
 	<script type="text/javascript" src="js/underscore.js"></script>
 	<script type="text/javascript" src="js/backbone.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
-</body>
 </html>

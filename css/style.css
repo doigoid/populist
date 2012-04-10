@@ -107,316 +107,211 @@ table {
 
 /*   STYLE
 -----------------------------------------------------------------------------*/
-.chat-open .chat {
-  -webkit-animation: fadeIn 0.6s linear;
-  display: block; }
-.chat-open .main {
-  -webkit-animation: fadeOut 0.6s linear;
-  display: none; }
-
-.chat {
-  -webkit-animation: fadeOut 0.6s linear;
-  -webkit-animation-fill-mode: both;
-  display: none; }
-
-.main {
-  -webkit-animation: fadeIn 0.6s linear;
-  -webkit-animation-fill-mode: both; }
-
 html {
-  font: 62.5% sans-serif;
+  font: normal 62.5%/1.5em sans-serif;
   -webkit-text-size-adjust: none;
-  -webkit-font-smoothing: antialiased; }
-
-body {
-  background-color: #eeeeee; }
-
-.artist {
-  font-weight: bold; }
-
-header.module {
-  color: #fff;
-  font-size: 1.3em;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%; }
-  header.module .text-button {
-    float: left;
-    margin-left: 10px;
-    margin-top: 10px; }
-  header.module .hd .logo {
-    font-weight: bold;
-    font-size: 1.4em;
-    padding-top: 0.5em;
-    float: left; }
-  header.module .hd .username {
-    color: #fff;
-    font-weight: bold;
-    text-decoration: none; }
-  header.module .bd .title {
-    margin: 0 5.5em; }
+  background-color: #f7f7f7;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 .wrapper {
   width: 90%;
   margin: 0 auto; }
 
-.username {
-  float: right;
-  margin-right: 1em;
-  line-height: 44px; }
-
-.player .duration {
-  float: right;
-  line-height: 44px; }
-.player .track {
-  position: relative;
-  height: 30px;
-  border: 1px solid #000;
-  margin: 0 5.5em;
-  top: 5px; }
-.player .progress {
-  z-index: 2; }
-.player .progress, .player .loaded {
+.top-bar {
   position: absolute;
-  height: 100%;
-  top: 0;
-  left: 0; }
+  width: 100%;
+  color: #ffffff; }
+  .top-bar .chat {
+    font-weight: bold;
+    font-size: 1.3em; }
+  .top-bar .information {
+    padding-top: 10px; }
+  .top-bar a {
+    color: #ffffff;
+    text-decoration: none; }
+  .top-bar .logo {
+    text-indent: -9999px;
+    background: url("../img/logo_large.png");
+    background-size: 174px 44px;
+    width: 174px;
+    height: 44px; }
 
-.content {
-  padding-top: 16em;
-  background-color: rgba(255, 255, 255, 0.9); }
+.main {
+  padding-top: 140px;
+  background-color: #ffffff; }
 
-.request-queue, .make-request {
-  padding: 1em 0; }
+.player .controls, .top-bar .logo, .request-queue .controls, .chat .user {
+  float: left; }
 
-.chat-box {
-  padding: 1em 0; }
-  .chat-box .hd, .chat-box .bd {
-    padding: 0 20px; }
-  .chat-box textarea {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%; }
-  .chat-box .messages {
-    padding: 1em 0; }
-  .chat-box .message {
-    border-bottom: 2px dotted #CCC;
-    padding: 0.7em 0; }
-  .chat-box .timestamp {
-    float: right; }
-  .chat-box .user {
-    font-weight: bold; }
-
-.request-queue .hd {
-  background: transparent url("../img/icon-request-queue-circle.png") 7px center no-repeat;
-  padding-left: 44px;
-  line-height: 44px;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
-  font-size: 1.5em; }
-.request-queue .bd {
-  padding: 0 20px; }
-.request-queue .request {
-  padding: 0.5em 0;
-  border-bottom: 2px dotted #ccc; }
-  .request-queue .request .title {
-    line-height: 1.5em; }
-  .request-queue .request .duration {
-    float: right; }
-
-.controls {
-  float: left;
-  width: 3em; }
-
-.vote-up {
-  border-color: transparent transparent #cccccc transparent;
-  border-style: solid;
-  border-width: 1em;
-  width: 0;
-  height: 0;
-  display: block; }
-
-.vote-down {
-  border-color: #cccccc transparent transparent transparent;
-  border-style: solid;
-  border-width: 1em;
-  width: 0;
-  height: 0;
-  display: block;
-  margin-top: 0.5em; }
-
-.make-request .hd {
-  background: transparent url("../img/icon-request-add-circle.png") 7px center no-repeat;
-  padding-left: 44px;
-  line-height: 44px;
-  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.25);
-  font-size: 1.5em; }
-.make-request .bd {
-  padding: 0 20px; }
-  .make-request .bd input {
-    width: 100%; }
-
-.fullscreen {
-  background: transparent url("../img/icon-fullscreen.png") center center no-repeat;
-  padding: 12px;
-  width: 20px;
-  height: 20px;
-  display: block;
+.top-bar .chat, .player .information, .chat .time, .track .information {
   float: right; }
 
-.play {
-  background: transparent url("../img/icon-play.png") center center no-repeat;
-  padding: 12px;
-  width: 20px;
-  height: 20px;
+.player .title {
+  text-align: center;
+  padding-bottom: 5px;
+  font-size: 1.2em; }
+.player .controls .pause {
+  font-weight: bold; }
+.player .controls a {
+  font-size: 30px;
+  line-height: 1.5em;
+  text-decoration: none;
   display: block;
-  float: left; }
+  text-align: center; }
+.player .track {
+  position: relative;
+  height: 2em;
+  border: 1px solid; }
+.player .loaded, .player .progress {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
 
-.pause {
-  background: transparent url("../img/icon-pause.png") center center no-repeat;
-  padding: 12px;
-  width: 20px;
-  height: 20px;
+.module {
+  padding: 1.5em 0; }
+  .module .hd, .module .bd {
+    font-size: 1.2em;
+    padding: 0 34px; }
+  .module .hd {
+    font: 1.4em/1.6em sans-serif;
+    font-weight: bold;
+    min-height: 30px;
+    line-height: 30px; }
+
+.make-request .track, .request-queue .track {
+  padding: 0.5em 0;
+  border-bottom: 2px dotted #CCC; }
+  .make-request .track .title, .request-queue .track .title {
+    line-height: 1.2em;
+    font-weight: bold; }
+
+.make-request .hd {
+  background: transparent url("../img/icon-request-add-circle.png") no-repeat 2px 0; }
+.make-request .track {
+  background: transparent url("../img/icon-add.png") no-repeat left center;
+  padding-left: 20px; }
+  .make-request .track a {
+    display: block;
+    text-decoration: none;
+    color: inherit; }
+.make-request input {
+  width: 100%; }
+
+.request-queue .hd {
+  background: transparent url("../img/icon-request-queue-circle.png") no-repeat 2px 0; }
+.request-queue .controls .vote {
+  text-decoration: none;
   display: block;
-  float: left; }
+  font-size: 30px; }
+
+.chat .user {
+  font-weight: bold;
+  line-height: 1.5em; }
+.chat .message {
+  border-bottom: 2px dotted #CCC; }
 
 @media screen and (min-width: 240px) {
-  body {
-    font-size: 0.7em; }
-
-  header.module {
+  .top-bar {
     background-color: rgba(255, 0, 0, 0.7); }
 
   .progress {
     background-color: aqua; }
 
+  .player .play, .player .pause {
+    color: aqua; }
+
   .loaded {
     background-color: rgba(51, 0, 0, 0.7); }
 
-  .vote-down {
-    border-top-color: rgba(255, 0, 0, 0.7); }
-
-  .vote-up {
-    border-bottom-color: rgba(255, 0, 0, 0.7); } }
+  .vote {
+    color: rgba(255, 0, 0, 0.7); } }
 @media screen and (min-width: 320px) {
-  body {
-    font-size: 0.9em; }
-
-  header.module {
-    background-color: rgba(255, 213, 0, 0.7); }
-
-  .progress {
-    background-color: #002aff; }
-
-  .loaded {
-    background-color: rgba(51, 43, 0, 0.7); }
-
-  .content {
-    padding-top: 12em; }
-
-  .vote-down {
-    border-top-color: rgba(255, 213, 0, 0.7); }
-
-  .vote-up {
-    border-bottom-color: rgba(255, 213, 0, 0.7); } }
-@media screen and (min-width: 480px) {
-  body {
-    font-size: 1.3em; }
-
-  header.module {
+  .top-bar {
     background-color: rgba(85, 255, 0, 0.7); }
 
   .progress {
     background-color: #aa00ff; }
 
+  .player .play, .player .pause {
+    color: #aa00ff; }
+
   .loaded {
     background-color: rgba(17, 51, 0, 0.7); }
 
-  .content {
-    padding-top: 10em; }
-
-  .vote-down {
-    border-top-color: rgba(85, 255, 0, 0.7); }
-
-  .vote-up {
-    border-bottom-color: rgba(85, 255, 0, 0.7); } }
-@media screen and (min-width: 640px) {
-  header.module {
+  .vote {
+    color: rgba(85, 255, 0, 0.7); } }
+@media screen and (min-width: 480px) {
+  .top-bar {
     background-color: rgba(0, 255, 128, 0.7); }
 
   .progress {
     background-color: #ff007f; }
 
+  .player .play, .player .pause {
+    color: #ff007f; }
+
   .loaded {
     background-color: rgba(0, 51, 26, 0.7); }
 
-  .vote-down {
-    border-top-color: rgba(0, 255, 128, 0.7); }
-
-  .vote-up {
-    border-bottom-color: rgba(0, 255, 128, 0.7); } }
-@media screen and (min-width: 768px) {
-  header.module {
+  .vote {
+    color: rgba(0, 255, 128, 0.7); } }
+@media screen and (min-width: 640px) {
+  .top-bar {
     background-color: rgba(0, 170, 255, 0.7); }
 
   .progress {
     background-color: #ff5500; }
 
+  .player .play, .player .pause {
+    color: #ff5500; }
+
   .loaded {
     background-color: rgba(0, 34, 51, 0.7); }
 
-  .vote-down {
-    border-top-color: rgba(0, 170, 255, 0.7); }
-
-  .vote-up {
-    border-bottom-color: rgba(0, 170, 255, 0.7); } }
-@media screen and (min-width: 1024px) {
-  header.module {
+  .vote {
+    color: rgba(0, 170, 255, 0.7); } }
+@media screen and (min-width: 768px) {
+  .top-bar {
     background-color: rgba(42, 0, 255, 0.7); }
 
   .progress {
     background-color: #d5ff00; }
 
-  .show-on-small-devices {
-    display: none; }
+  .player .play, .player .pause {
+    color: #d5ff00; }
 
   .loaded {
     background-color: rgba(8, 0, 51, 0.7); }
 
-  .vote-down {
-    border-top-color: rgba(42, 0, 255, 0.7); }
-
-  .vote-up {
-    border-bottom-color: rgba(42, 0, 255, 0.7); } }
-@media screen and (min-width: 1200px) {
-  header.module {
+  .vote {
+    color: rgba(42, 0, 255, 0.7); } }
+@media screen and (min-width: 1024px) {
+  .top-bar {
     background-color: rgba(255, 0, 255, 0.7); }
 
   .progress {
     background-color: lime; }
 
+  .player .play, .player .pause {
+    color: lime; }
+
   .loaded {
     background-color: rgba(51, 0, 51, 0.7); }
 
-  .vote-down {
-    border-top-color: rgba(255, 0, 255, 0.7); }
+  .vote {
+    color: rgba(255, 0, 255, 0.7); } }
+@media screen and (min-width: 1200px) {
+  .top-bar {
+    background-color: rgba(255, 0, 43, 0.7); }
 
-  .vote-up {
-    border-bottom-color: rgba(255, 0, 255, 0.7); } }
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-    display: none; }
+  .progress {
+    background-color: #00ffd4; }
 
-  to {
-    opacity: 1;
-    display: block; } }
+  .player .play, .player .pause {
+    color: #00ffd4; }
 
-@-webkit-keyframes fadeOut {
-  from {
-    opacity: 1;
-    display: block; }
+  .loaded {
+    background-color: rgba(51, 0, 9, 0.7); }
 
-  to {
-    opacity: 0;
-    display: none; } }
+  .vote {
+    color: rgba(255, 0, 43, 0.7); } }
