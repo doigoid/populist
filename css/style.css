@@ -107,6 +107,22 @@ table {
 
 /*   STYLE
 -----------------------------------------------------------------------------*/
+.chat-open .chat-page {
+  -webkit-animation: fadeIn 0.6s linear;
+  display: block; }
+.chat-open .index {
+  -webkit-animation: fadeOut 0.6s linear;
+  display: none; }
+
+.chat-page {
+  -webkit-animation: fadeOut 0.6s linear;
+  -webkit-animation-fill-mode: both;
+  display: none; }
+
+.index {
+  -webkit-animation: fadeIn 0.6s linear;
+  -webkit-animation-fill-mode: both; }
+
 html {
   font: normal 62.5%/1.5em sans-serif;
   -webkit-text-size-adjust: none;
@@ -204,6 +220,12 @@ html {
   display: block;
   font-size: 30px; }
 
+.chat .message-input {
+  width: 100%;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  border-color: #ccc; }
 .chat .user {
   font-weight: bold;
   line-height: 1.5em; }
@@ -315,3 +337,20 @@ html {
 
   .vote {
     color: rgba(255, 0, 43, 0.7); } }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+    display: none; }
+
+  to {
+    opacity: 1;
+    display: block; } }
+
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+    display: block; }
+
+  to {
+    opacity: 0;
+    display: none; } }

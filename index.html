@@ -35,87 +35,67 @@
 			</div>
 		</header>
 		<div class="wrapper main">
-			<section class="module make-request">
+			<section class="module make-request index">
 				<div class="hd"><h1>Make a Request</h1></div>
 				<div class="bd">
-					<input type="search" placeholder="Search by Artist or Title" />
-					<ol>
-						<li class="track">
-							<a href="#">
-								<div class="title">Title</div>
-								<div class="artist">Artist</div>
-							</a>
-						</li>
-					</ol>
+					<input type="search" placeholder="Search by Artist or Title" class="request-input" />
+					<ol id="request-list"></ol>
 				</div>
 			</section>
-			<section class="module request-queue">
+			<section class="module request-queue index">
 				<div class="hd"><h1>Request Queue</h1></div>
 				<div class="bd">
-					<ol>
-						<li class="track" data-id="1">
-							<div class="title">Title</div>
-							<div class="artist">Artist</div>
-							<div class="clearfix">
-								<div class="controls">
-									<a href="javascript:;" class="vote">&#9650;</a>
-									<a href="javascript:;" class="vote">&#9660;</a>
-								</div>
-								<div class="information">
-									<time datetime="P0M,00S" class="duration">0:00</time>
-									<div class="votes">0 Votes</div>
-								</div>
-							</div>
-						</li>
-						<li class="track" data-id="1">
-							<div class="title">Title</div>
-							<div class="artist">Artist</div>
-							<div class="clearfix">
-								<div class="controls">
-									<a href="javascript:;" class="vote">&#9650;</a>
-									<a href="javascript:;" class="vote">&#9660;</a>
-								</div>
-								<div class="information">
-									<time datetime="P0M,00S" class="duration">0:00</time>
-									<div class="votes">0 Votes</div>
-								</div>
-							</div>
-						</li>
-						<li class="track" data-id="1">
-							<div class="title">Title</div>
-							<div class="artist">Artist</div>
-							<div class="clearfix">
-								<div class="controls">
-									<a href="javascript:;" class="vote">&#9650;</a>
-									<a href="javascript:;" class="vote">&#9660;</a>
-								</div>
-								<div class="information">
-									<time datetime="P0M,00S" class="duration">0:00</time>
-									<div class="votes">0 Votes</div>
-								</div>
-							</div>
-						</li>
-					</ol>
+					<ol id="track-list"></ol>
 				</div>
 			</section>
-			<section class="module chat">
+			<section class="module chat chat-page">
 				<div class="hd"><h1>Chat</h1></div>
 				<div class="bd">
-					<ol>
-						<li class="message">
-							<div class="information clearfix">
-								<div class="user">Aaron</div>
-								<time datetime="2012-04-10T05:46:12.503Z" class="time">8:00PM</time>
-							</div>
-							<div class="text">Hello</div>
-						</li>
-					</ol>
+					<textarea class="message-input" placeholder="Say Something :)"></textarea>
+					<ol id="message-list"></ol>
 				</div>
 			</section>
 		</div>
 	</body>
+	<script type="text/template" id="request-template">
+		<li class="track">
+			<a href="#">
+				<div class="title">Title</div>
+				<div class="artist">Artist</div>
+			</a>
+		</li>
+	</script>
+	<script type="text/template" id="track-template">
+		<li class="track" data-id="1">
+			<div class="title">Title</div>
+			<div class="artist">Artist</div>
+			<div class="clearfix">
+				<div class="controls">
+					<a href="javascript:;" class="vote up" data-value="increment">&#9650;</a>
+					<a href="javascript:;" class="vote down" data-value="decrement">&#9660;</a>
+				</div>
+				<div class="information">
+					<time datetime="P0M,00S" class="duration">0:00</time>
+					<div class="votes">0 Votes</div>
+				</div>
+			</div>
+		</li>
+	</script>
+	<script type="text/template" id="message-template">
+		<li class="message">
+			<div class="information clearfix">
+				<div class="user">Aaron</div>
+				<time datetime="2012-04-10T05:46:12.503Z" class="time">8:00PM</time>
+			</div>
+			<div class="text">Hello</div>
+		</li>
+	</script>
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.echonest.js"></script>
 	<script type="text/javascript" src="http://static.firebase.com/v0/firebase.js"></script>
 	<script type="text/javascript" src="js/underscore.js"></script>
 	<script type="text/javascript" src="js/backbone.js"></script>
+	<script type="text/javascript" src="js/backbone-firebase.js"></script>
+	<script type="text/javascript" src="js/emitter.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </html>

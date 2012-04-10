@@ -1,31 +1,32 @@
 (function() {
-  var Message, Messages, MessagesView, TodoApp, Track, Tracks, TracksView, User, Users, firebase,
+  var AppView, Message, MessageList, MessageView, Player, Request, RequestList, RequestView, Track, TrackList, TrackView, echonest, messageView, requestView, trackView,
     __hasProp = Object.prototype.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; },
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  firebase = new Firebase('http://gamma.firebase.com/populist/');
+  echonest = new EchoNest("B2DH7MOZ0PWGKE2AM");
 
-  User = (function(_super) {
+  Player = (function(_super) {
 
-    __extends(User, _super);
+    __extends(Player, _super);
 
-    function User() {
-      User.__super__.constructor.apply(this, arguments);
+    function Player() {
+      Player.__super__.constructor.apply(this, arguments);
     }
 
-    return User;
+    return Player;
 
-  })(Backbone.Model);
+  })(Emitter);
 
-  Message = (function(_super) {
+  Request = (function(_super) {
 
-    __extends(Message, _super);
+    __extends(Request, _super);
 
-    function Message() {
-      Message.__super__.constructor.apply(this, arguments);
+    function Request() {
+      Request.__super__.constructor.apply(this, arguments);
     }
 
-    return Message;
+    return Request;
 
   })(Backbone.Model);
 
@@ -41,107 +42,148 @@
 
   })(Backbone.Model);
 
-  Users = (function(_super) {
+  Message = (function(_super) {
 
-    __extends(Users, _super);
+    __extends(Message, _super);
 
-    function Users() {
-      Users.__super__.constructor.apply(this, arguments);
+    function Message() {
+      Message.__super__.constructor.apply(this, arguments);
     }
 
-    Users.prototype.model = User;
+    return Message;
 
-    return Users;
+  })(Backbone.Model);
+
+  RequestList = (function(_super) {
+
+    __extends(RequestList, _super);
+
+    function RequestList() {
+      RequestList.__super__.constructor.apply(this, arguments);
+    }
+
+    RequestList.prototype.model = Request;
+
+    return RequestList;
 
   })(Backbone.Collection);
 
-  Messages = (function(_super) {
+  TrackList = (function(_super) {
 
-    __extends(Messages, _super);
+    __extends(TrackList, _super);
 
-    function Messages() {
-      Messages.__super__.constructor.apply(this, arguments);
+    function TrackList() {
+      TrackList.__super__.constructor.apply(this, arguments);
     }
 
-    Messages.prototype.model = Message;
+    TrackList.prototype.model = Track;
 
-    return Messages;
+    return TrackList;
 
   })(Backbone.Collection);
 
-  Tracks = (function(_super) {
+  MessageList = (function(_super) {
 
-    __extends(Tracks, _super);
+    __extends(MessageList, _super);
 
-    function Tracks() {
-      Tracks.__super__.constructor.apply(this, arguments);
+    function MessageList() {
+      MessageList.__super__.constructor.apply(this, arguments);
     }
 
-    Tracks.prototype.model = Track;
+    MessageList.prototype.model = Message;
 
-    return Tracks;
+    return MessageList;
 
   })(Backbone.Collection);
 
-  MessagesView = (function(_super) {
+  RequestView = (function(_super) {
 
-    __extends(MessagesView, _super);
+    __extends(RequestView, _super);
 
-    function MessagesView() {
-      MessagesView.__super__.constructor.apply(this, arguments);
+    function RequestView() {
+      this.updateOnEnter = __bind(this.updateOnEnter, this);
+      RequestView.__super__.constructor.apply(this, arguments);
     }
 
-    return MessagesView;
+    RequestView.prototype.template = _.template($("#request-template").html());
+
+    RequestView.prototype.events = {
+      "keypress .request-input": "updateOnEnter"
+    };
+
+    RequestView.prototype.updateOnEnter = function(event) {
+      if (event.keyCode === 13) return console.log(this);
+    };
+
+    return RequestView;
 
   })(Backbone.View);
 
-  TracksView = (function(_super) {
+  TrackView = (function(_super) {
 
-    __extends(TracksView, _super);
+    __extends(TrackView, _super);
 
-    function TracksView() {
-      TracksView.__super__.constructor.apply(this, arguments);
+    function TrackView() {
+      TrackView.__super__.constructor.apply(this, arguments);
     }
 
-    return TracksView;
+    TrackView.prototype.template = _.template($("#track-template").html());
+
+    TrackView.prototype.events = {
+      "click .vote.up": "voteUp",
+      "click .vote.down": "voteDown"
+    };
+
+    TrackView.prototype.voteUp = function(event) {
+      return console.log(this);
+    };
+
+    TrackView.prototype.voteDown = function(event) {
+      return console.log(this);
+    };
+
+    return TrackView;
 
   })(Backbone.View);
 
-  TodoApp = (function(_super) {
+  MessageView = (function(_super) {
 
-    __extends(TodoApp, _super);
+    __extends(MessageView, _super);
 
-    function TodoApp() {
-      TodoApp.__super__.constructor.apply(this, arguments);
+    function MessageView() {
+      MessageView.__super__.constructor.apply(this, arguments);
     }
 
-    TodoApp.prototype.routes = {
-      "": "index",
-      "chat": "chat"
+    MessageView.prototype.template = _.template($("#message-template").html());
+
+    MessageView.prototype.events = {
+      "keypress .message-input": "updateOnEnter"
     };
 
-    TodoApp.prototype.initialize = function() {
-      this.users = new Users();
-      this.messages = new Messages();
-      return this.tracks = new Tracks();
+    MessageView.prototype.updateOnEnter = function() {
+      return console.log(this);
     };
 
-    TodoApp.prototype.index = function() {
-      return console.log("Index Action");
-    };
+    return MessageView;
 
-    TodoApp.prototype.start = function() {
-      return Backbone.history.start();
-    };
+  })(Backbone.View);
 
-    TodoApp.prototype.chat = function() {
-      return console.log("Chat Action");
-    };
+  AppView = (function(_super) {
 
-    return TodoApp;
+    __extends(AppView, _super);
 
-  })(Backbone.Router);
+    function AppView() {
+      AppView.__super__.constructor.apply(this, arguments);
+    }
 
-  window.todoApp = new TodoApp();
+    return AppView;
+
+  })(Backbone.View);
+
+  requestView = new RequestView();
+
+  trackView = new TrackView();
+
+  messageView = new MessageView();
 
 }).call(this);
